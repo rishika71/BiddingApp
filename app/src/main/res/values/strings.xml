@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">BiddingApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="createAccount">Create New Account</string>
+    <string name="forgotPassword">Forgot Password</string>
+    <string name="enterEmail">Please Enter Email</string>
+    <string name="enterPassword">Please Enter Password</string>
+    <string name="enterFirstName">Please Enter First Name</string>
+    <string name="enterLastName">Please Enter Last Name</string>
+    <string name="login">LOGIN</string>
+    <string name="errorMessage">Error !!!</string>
+    <string name="ok">OK</string>
+    <string name="firstName">Firstname</string>
+    <string name="lastName">Lastname</string>
+    <string name="register">register</string>
+    <string name="passwordResetEmail">Reset password link was sent to your email.</string>
+    <string name="resetPassword">Reset Password</string>
+    <string name="cancel">cancel</string>
+    <string name="trading">Trading</string>
+</resources>
