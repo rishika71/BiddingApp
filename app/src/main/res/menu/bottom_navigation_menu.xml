@@ -2,15 +2,20 @@
     <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/bids"
+        android:enabled="true"
+        android:icon="@drawable/icon_drawer"
+        android:title="Bids"/>
+    <item
+        android:id="@+id/history"
+        android:enabled="true"
+        android:icon="@drawable/home"
+        android:title="History"/>
+    <item
         android:id="@+id/profileIcons"
         android:enabled="true"
         android:icon="@drawable/profile"
         android:title="@string/profile"/>
-    <item
-        android:id="@+id/home"
-        android:enabled="true"
-        android:icon="@drawable/home"
-        android:title="@string/home"/>
     <item
         android:id="@+id/logOutIcons"
         android:enabled="true"

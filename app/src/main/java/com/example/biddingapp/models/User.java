@@ -1,45 +1,70 @@
 package com.example.biddingapp.models;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 public class User implements Serializable {
 
-    String firstName, lastName, id;
-    int currentBalance;
+    String firstname, lastname, email, id;
+    Double currentbalance = 200.00, hold = 0.00;
 
-    public User(){
-
+    public String getEmail() {
+        return email;
     }
 
-    public User(String firstName, String lastName, String id, int currentBalance) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
+    public User(){}
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public Double getCurrentbalance() {
+        return currentbalance;
+    }
+
+    public void setCurrentbalance(Double currentbalance) {
+        this.currentbalance = currentbalance;
+    }
+
+    public void addCurrentbalance(Double balance){
+        this.currentbalance += balance;
+    }
+
+    public Double getHold() {
+        return hold;
+    }
+
+    public void setHold(Double hold) {
+        this.hold = hold;
+    }
+
+    public User(String firstname, String lastname, String email, String id) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
         this.id = id;
-        this.currentBalance = currentBalance;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public int getCurrentBalance() {
-        return currentBalance;
-    }
-
-    public void setCurrentBalance(int currentBalance) {
-        this.currentBalance = currentBalance;
+    public String getPrettyBalance(){
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        return "$" + decimalFormat.format(this.currentbalance);
     }
 
     public String getId() {
@@ -53,10 +78,10 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                "firstName='" + firstname + '\'' +
+                ", lastName='" + lastname + '\'' +
                 ", id='" + id + '\'' +
-                ", currentBalance=" + currentBalance +
+                ", currentBalance=" + currentbalance +
                 '}';
     }
 }

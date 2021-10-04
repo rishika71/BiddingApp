@@ -1,68 +1,76 @@
-package com.example.biddingapp;
+package com.example.biddingapp.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
+import com.example.biddingapp.R;
+import com.example.biddingapp.databinding.FragmentHistoryBinding;
 import com.example.biddingapp.databinding.FragmentUserProfileBinding;
 import com.example.biddingapp.models.User;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.functions.FirebaseFunctions;
 
 
-public class UserProfileFragment extends Fragment {
+public class HistoryFragment extends Fragment {
 
-    FragmentUserProfileBinding binding;
+    FragmentHistoryBinding binding;
+
     NavController navController;
-    IUserProfile am;
+
+    FirebaseFunctions mFunctions;
+
+    IHistory am;
+
+    User user;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof IUserProfile) {
-            am = (IUserProfile) context;
+        if (context instanceof IHistory) {
+            am = (IHistory) context;
         } else {
             throw new RuntimeException(context.toString());
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setTitle("History");
 
-        getActivity().setTitle(R.string.userProfile);
+        mFunctions = FirebaseFunctions.getInstance();
 
-        binding = FragmentUserProfileBinding.inflate(inflater, container, false);
+        binding = FragmentHistoryBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        User user = am.getUser();
-        Log.d("demo", "onCreateView: " + user);
-        binding.firstnameTextViewId.setText(user.getFirstName());
-        binding.lastnameTextViewId.setText(user.getLastName());
+        user = am.getUser();
 
-        navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
-
-        binding.bottomNavigation.setSelectedItemId(R.id.profileIcons);
+        binding.bottomNavigation.setSelectedItemId(R.id.history);
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.home:
-                        navController.navigate(R.id.action_userProfileFragment_to_tradingFragment);
+                    case R.id.bids:
+                        navController.navigate(R.id.action_historyFragment_to_tradingFragment);
+                        return true;
+                    case R.id.history:
                         return true;
                     case R.id.profileIcons:
+                        navController.navigate(R.id.action_historyFragment_to_userProfileFragment);
                         return true;
                     case R.id.logOutIcons:
                         FirebaseAuth.getInstance().signOut();
-                        navController.navigate(R.id.action_userProfileFragment_to_loginFragment);
+                        navController.navigate(R.id.action_historyFragment_to_loginFragment);
                         return true;
 
                 }
@@ -71,12 +79,12 @@ public class UserProfileFragment extends Fragment {
         });
 
         return view;
-
     }
 
-    interface IUserProfile {
+    public interface IHistory{
 
         User getUser();
-        void setUser(User user);
+
     }
+
 }

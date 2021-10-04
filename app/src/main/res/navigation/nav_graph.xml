@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.biddingapp.LoginFragment"
+        android:name="com.example.biddingapp.fragment.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -16,13 +16,10 @@
         <action
             android:id="@+id/action_loginFragment_to_tradingFragment"
             app:destination="@id/tradingFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
-            app:destination="@id/forgotPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/createNewAccountFragment"
-        android:name="com.example.biddingapp.CreateNewAccountFragment"
+        android:name="com.example.biddingapp.fragment.CreateNewAccountFragment"
         android:label="fragment_create_new_account"
         tools:layout="@layout/fragment_create_new_account" >
         <action
@@ -34,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/tradingFragment"
-        android:name="com.example.biddingapp.TradingFragment"
+        android:name="com.example.biddingapp.fragment.TradingFragment"
         android:label="fragment_trading"
         tools:layout="@layout/fragment_trading" >
         <action
@@ -43,19 +40,16 @@
         <action
             android:id="@+id/action_tradingFragment_to_userProfileFragment"
             app:destination="@id/userProfileFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/forgotPasswordFragment"
-        android:name="com.example.biddingapp.ForgotPasswordFragment"
-        android:label="fragment_forgot_password"
-        tools:layout="@layout/fragment_forgot_password" >
         <action
-            android:id="@+id/action_forgotPasswordFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_tradingFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
+        <action
+            android:id="@+id/action_tradingFragment_to_postItemFragment"
+            app:destination="@id/postItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
-        android:name="com.example.biddingapp.UserProfileFragment"
+        android:name="com.example.biddingapp.fragment.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" >
         <action
@@ -64,5 +58,28 @@
         <action
             android:id="@+id/action_userProfileFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.example.biddingapp.fragment.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_historyFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_tradingFragment"
+            app:destination="@id/tradingFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postItemFragment"
+        android:name="com.example.biddingapp.fragment.PostItemFragment"
+        android:label="fragment_post_item"
+        tools:layout="@layout/fragment_post_item" />
 </navigation>
