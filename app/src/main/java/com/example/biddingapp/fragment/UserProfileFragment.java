@@ -45,6 +45,7 @@ public class UserProfileFragment extends Fragment {
             throw new RuntimeException(context.toString());
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,8 +94,11 @@ public class UserProfileFragment extends Fragment {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.home:
+                    case R.id.bids:
                         navController.navigate(R.id.action_userProfileFragment_to_tradingFragment);
+                        return true;
+                    case R.id.history:
+                        navController.navigate(R.id.action_userProfileFragment_to_historyFragment);
                         return true;
                     case R.id.profileIcons:
                         return true;

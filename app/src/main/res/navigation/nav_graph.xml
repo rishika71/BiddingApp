@@ -40,6 +40,12 @@
         <action
             android:id="@+id/action_tradingFragment_to_userProfileFragment"
             app:destination="@id/userProfileFragment" />
+        <action
+            android:id="@+id/action_tradingFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
+        <action
+            android:id="@+id/action_tradingFragment_to_postItemFragment"
+            app:destination="@id/postItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
@@ -52,5 +58,28 @@
         <action
             android:id="@+id/action_userProfileFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.example.biddingapp.fragment.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_historyFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_tradingFragment"
+            app:destination="@id/tradingFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postItemFragment"
+        android:name="com.example.biddingapp.fragment.PostItemFragment"
+        android:label="fragment_post_item"
+        tools:layout="@layout/fragment_post_item" />
 </navigation>
