@@ -7,11 +7,15 @@
         <entry key="app/src/main/res/layout/fragment_create_new_account.xml" value="0.19010416666666666" />
         <entry key="app/src/main/res/layout/fragment_forgot_password.xml" value="0.19010416666666666" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.19010416666666666" />
-        <entry key="app/src/main/res/layout/fragment_trading.xml" value="0.19010416666666666" />
+        <entry key="app/src/main/res/layout/fragment_trading.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/header_navigation_drawer.xml" value="0.19010416666666666" />
+        <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.19010416666666666" />
+        <entry key="app/src/main/res/menu/menu.xml" value="0.19010416666666666" />
+        <entry key="app/src/main/res/menu/navigation_drawer.xml" value="0.19010416666666666" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" default="true" project-jdk-name="16" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="16" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

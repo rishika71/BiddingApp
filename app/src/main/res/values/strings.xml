@@ -20,4 +20,7 @@
     <string name="resetPassword">Reset Password</string>
     <string name="cancel">cancel</string>
     <string name="trading">Trading</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Log Out</string>
+    <string name="home">Home</string>
 </resources>
