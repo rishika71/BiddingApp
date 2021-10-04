@@ -7,13 +7,13 @@ const DB_PROFILES = "profiles";
 const DB_AUCTION = "auction";
 const DB_TRANSACTION = "transaction";
 
-exports.createUser = functions.https.onCall(async(data, context) => {
+exports.createUserProfile = functions.https.onCall(async(data, context) => {
     const details = {
-      currentbalance: parseFloat(data.balance),
-      hold: 0,
-      firstname: data.firstname,
-      lastname: data.lastname,
-      email: context.auth.token.email || null,
+        hold: 0,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        currentbalance: data.currentbalance,
+        email: context.auth.token.email || null,
     };
     const refback = await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).set(details);
     return {
@@ -23,28 +23,9 @@ exports.createUser = functions.https.onCall(async(data, context) => {
     };
 })
 
-exports.fetchUser = functions.https.onCall(async (data, context) => {
-  const result = await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).get();
-  const profile = result.data();
-  if (typeof profile === "undefined") {
-    return {
-      result: `Error: User not found`,
-    };
-  }
-  return {
-    result: {
-      "firstname": profile.firstname,
-      "lastname": profile.lastname,
-      "email": profile.email ,
-      "currentbalance": profile.currentbalance,
-      "hold": profile.hold,
-    },
-  };
-})
-
-exports.addBalance = functions.https.onCall(async (data, context) => {
+exports.addMoney = functions.https.onCall(async (data, context) => {
     const details = {
-      balance: admin.firestore.FieldValue.increment(parseFloat(data.balance))
+        currentbalance: admin.firestore.FieldValue.increment(data.currentbalance)
     }
     await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).update(details);
     return {
@@ -53,7 +34,7 @@ exports.addBalance = functions.https.onCall(async (data, context) => {
     };
 })
 
-exports.postItem = functions.https.onCall(async (data, context) => {
+exports.postNewItem = functions.https.onCall(async (data, context) => {
   // data has item obj
     const result = await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).get();
     const profile = result.data();
@@ -63,21 +44,21 @@ exports.postItem = functions.https.onCall(async (data, context) => {
       };
     }
     if (profile.currentbalance >= 1) {
-      const details = {balance: admin.firestore.FieldValue.increment(-1)}
+      const details = {currentbalance: admin.firestore.FieldValue.increment(-1)}
       await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).update(details);
 
       const item = {
         owner_id: context.auth.uid,
         item_obj: JSON.parse(data.item),
-        minFinalBid: parseFloat(data.minFinalBid),
+        minFinalBid: data.minFinalBid,
         winningBid: {
-          bidAmount: parseFloat(data.startBid),
+          bidAmount: data.startBid,
           noti_token: profile.noti_token,
           userId: context.auth.uid,
         },
         previousbids: [
           {
-            bidAmount: parseFloat(data.startBid),
+            bidAmount: data.startBid,
             noti_token: profile.noti_token,
             userId: context.auth.uid,
           },
@@ -113,9 +94,9 @@ exports.cancelItem = functions.https.onCall(async (data, context) => {
   if (itemData.data().owner === context.auth.uid) {
     await admin.firestore().collection(DB_AUCTION).doc(data.itemId).delete();
     const bidWinner = itemData.winningBid.userId;
-    const amount = parseFloat(itemData.winningBid.bidAmount);
+    const amount = itemData.winningBid.bidAmount;
 
-    let userDetailsNew = {balance: admin.firestore.FieldValue.increment(amount)}
+    let userDetailsNew = {currentbalance: admin.firestore.FieldValue.increment(amount)}
     await admin.firestore().collection(DB_PROFILES).doc(bidWinner).update(userDetailsNew);
     return {
       result: `Success`,
@@ -143,13 +124,13 @@ exports.bidOnItem = functions.https.onCall(async (data, context) => {
       };
     }
 
-  const amount = parseFloat(data.bidAmount) + 1;
-  if (profile.balance >= amount && (parseFloat(data.bidAmount) >= parseFloat(itemData.data().winningBid.bidAmount))) {
-      const details = {balance: admin.firestore.FieldValue.increment(-1)}
+  const amount = data.bidAmount + 1;
+  if (profile.currentbalance >= amount && (data.bidAmount >= itemData.data().winningBid.bidAmount)) {
+      const details = {currentbalance: admin.firestore.FieldValue.increment(-1)}
       await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).update(details);
 
       const bidDetails = {
-        bidAmount: parseFloat(data.bidAmount),
+        bidAmount: data.bidAmount,
         userId: context.auth.uid,
         noti_token: profile.noti_token,
       }
@@ -174,7 +155,7 @@ exports.bidOnItem = functions.https.onCall(async (data, context) => {
         bidDetails: bidDetails,
       };
     } else {
-      if (amount < parseFloat(itemData.data().winningBid.bidAmount)) {
+      if (amount < itemData.data().winningBid.bidAmount) {
         return {
           result: `Error: Bid must be greater than or equal to the currentBid`,
         };
@@ -209,10 +190,10 @@ exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{ite
         });
 
     if (change.before.data().winningBid.userId !== change.before.data().owner) {
-      let amount1 = parseFloat(change.before.data().winningBid.bidAmount);
+      let amount1 = change.before.data().winningBid.bidAmount;
       let prev_details = {
-        balance: admin.firestore.FieldValue.increment(amount1),
-        balanceonhold: admin.firestore.FieldValue.increment(-amount1),
+          currentbalance: admin.firestore.FieldValue.increment(amount1),
+        hold: admin.firestore.FieldValue.increment(-amount1),
       }
       const docRef = admin.firestore().collection(DB_PROFILES).doc(previousBidWinner);
       const _ = docRef.update(prev_details);
@@ -220,10 +201,10 @@ exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{ite
 
     if (change.after.data().winningBid.userId !== change.after.data().owner) {
       const docRefNew = admin.firestore().collection(DB_PROFILES).doc(newBidWinner);
-      let amount2 = parseFloat(change.after.data().winningBid.bidAmount);
+      let amount2 = change.after.data().winningBid.bidAmount;
       let after_details = {
-        balance: admin.firestore.FieldValue.increment(-amount2),
-        balanceonhold: admin.firestore.FieldValue.increment(amount2),
+          currentbalance: admin.firestore.FieldValue.increment(-amount2),
+        hold: admin.firestore.FieldValue.increment(amount2),
       }
       const _ = docRefNew.update(after_details);
     }
@@ -245,10 +226,10 @@ exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{ite
         });
 
     if (change.after.data().winningBid.userId !== change.after.data().owner) {
-      let amount3 = parseFloat(change.after.data().winningBid.bidAmount);
+      let amount3 = change.after.data().winningBid.bidAmount;
       let new_details = {
-        balance: admin.firestore.FieldValue.increment(-amount3),
-        balanceonhold: admin.firestore.FieldValue.increment(amount3),
+          currentbalance: admin.firestore.FieldValue.increment(-amount3),
+        hold: admin.firestore.FieldValue.increment(amount3),
       }
       const docRef = admin.firestore().collection(DB_PROFILES).doc(newBidWinner);
       const balanceWriteResult = docRef.update(new_details);
@@ -256,10 +237,10 @@ exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{ite
 
     if (change.before.data().winningBid.userId !== change.before.data().owner) {
       const docRefNew = admin.firestore().collection(DB_PROFILES).doc(previousBidWinner);
-      let amount4 = parseFloat(change.before.data().winningBid.bidAmount);
+      let amount4 = change.before.data().winningBid.bidAmount;
       let prev_details = {
-        balance: admin.firestore.FieldValue.increment(amount4),
-        balanceonhold: admin.firestore.FieldValue.increment(-amount4),
+          currentbalance: admin.firestore.FieldValue.increment(amount4),
+        hold: admin.firestore.FieldValue.increment(-amount4),
       }
       const balanceOnHoldWriteResult = docRefNew.update(prev_details);
     }
@@ -268,9 +249,9 @@ exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{ite
 
 exports.updateOnItemDelete = functions.firestore.document(DB_AUCTION + '/' + '{itemId}').onDelete((change, context) => {
   const bidWinner = change.data().winningBid.userId;
-  const amount = parseFloat(change.data().winningBid.bidAmount);
+  const amount = change.data().winningBid.bidAmount;
 
-  let new_details = { balanceonhold: admin.firestore.FieldValue.increment(-amount) }
+  let new_details = { hold: admin.firestore.FieldValue.increment(-amount) }
   const docRef = admin.firestore().collection(DB_PROFILES).doc(bidWinner);
   const balanceWriteResult = docRef.update(new_details);
 });
@@ -305,7 +286,7 @@ exports.cancelBid = functions.https.onCall(async (data, context) => {
           let max = Math.max.apply(Math, filteredItems.map(function (o) { return o.bidAmount; }))
           winBid = filteredItems.find(element => element.bidAmount === max);
           const checkUserBalance = await admin.firestore().collection(DB_PROFILES).doc(winBid.userId).get();
-          if (checkUserBalance.data().balance < winBid.bidAmount) {
+          if (checkUserBalance.data().currentbalance < winBid.bidAmount) {
             filteredItems = filteredItems.filter(item => item.userId !== winBid.userId)
           } else {
             break;
@@ -350,10 +331,10 @@ exports.acceptBidOnItem = functions.https.onCall(async (data, context) => {
       const winnerId = itemData.data().winningBid.userId;
       const itemName = itemData.data().item.name;
 
-      const amount = parseFloat(itemData.data().winningBid.bidAmount);
+      const amount = itemData.data().winningBid.bidAmount;
 
       const details = {
-        balance: admin.firestore.FieldValue.increment(amount),
+          currentbalance: admin.firestore.FieldValue.increment(amount),
       }
 
       await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).update(details);

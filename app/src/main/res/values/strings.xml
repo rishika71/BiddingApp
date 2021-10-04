@@ -24,4 +24,7 @@
     <string name="logout">Log Out</string>
     <string name="home">Home</string>
     <string name="userProfile">User Profile</string>
+    <string name="info">Info</string>
+    <string name="okay">Okay</string>
+    <string name="loading">Loading...</string>
 </resources>

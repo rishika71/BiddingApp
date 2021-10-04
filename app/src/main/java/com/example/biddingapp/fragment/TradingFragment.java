@@ -1,4 +1,4 @@
-package com.example.biddingapp;
+package com.example.biddingapp.fragment;
 
 import android.os.Bundle;
 
@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.biddingapp.R;
 import com.example.biddingapp.databinding.FragmentTradingBinding;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,7 +26,7 @@ public class TradingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-      getActivity().setTitle(R.string.trading);
+      getActivity().setTitle("Ongoing Bids");
 
       binding = FragmentTradingBinding.inflate(inflater, container, false);
       View view = binding.getRoot();
