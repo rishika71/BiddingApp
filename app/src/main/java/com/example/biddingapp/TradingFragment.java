@@ -40,6 +40,7 @@ public class TradingFragment extends Fragment {
                     case R.id.home:
                         return true;
                     case R.id.profileIcons:
+                        navController.navigate(R.id.action_tradingFragment_to_userProfileFragment);
                         return true;
                     case R.id.logOutIcons:
                         FirebaseAuth.getInstance().signOut();
