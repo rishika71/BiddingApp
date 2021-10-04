@@ -7,14 +7,14 @@ const DB_PROFILES = "profiles";
 const DB_AUCTION = "auction";
 const DB_TRANSACTION = "transaction";
 
-exports.createUser = functions.https.onCall(async (data, context) => {
+exports.createUser = functions.https.onCall(async(data, context) => {
     const details = {
       currentbalance: parseFloat(data.balance),
       hold: 0,
       firstname: data.firstname,
       lastname: data.lastname,
       email: context.auth.token.email || null,
-    }
+    };
     const refback = await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).set(details);
     return {
       result: `Success`,
@@ -65,11 +65,10 @@ exports.postItem = functions.https.onCall(async (data, context) => {
     if (profile.currentbalance >= 1) {
       const details = {balance: admin.firestore.FieldValue.increment(-1)}
       await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).update(details);
-      objj = JSON.parse(data.item);
 
       const item = {
         owner_id: context.auth.uid,
-        item_obj: objj,
+        item_obj: JSON.parse(data.item),
         minFinalBid: parseFloat(data.minFinalBid),
         winningBid: {
           bidAmount: parseFloat(data.startBid),
@@ -84,7 +83,7 @@ exports.postItem = functions.https.onCall(async (data, context) => {
           },
         ],
       }
-      const refback = await admin.firestore().collection(DB_AUCTION).doc(item.id).set(details);
+      await admin.firestore().collection(DB_AUCTION).doc(item.id).set(details);
       return {
         result: `Success`,
         details: details,
