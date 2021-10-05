@@ -17,6 +17,7 @@ import androidx.navigation.Navigation;
 import com.example.biddingapp.R;
 import com.example.biddingapp.databinding.FragmentUserProfileBinding;
 import com.example.biddingapp.models.User;
+import com.example.biddingapp.models.Utils;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -70,20 +71,15 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String money = binding.editTextTextPersonName.getText().toString();
-                Double fmoney;
                 if(money.equals("")){
                     Toast.makeText(getContext(), "Please enter money to add!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                money = money.replace("$", "");
-                try{
-                    fmoney = Double.parseDouble(money);
-                    if(fmoney < 1) throw new NumberFormatException();
-                }catch (NumberFormatException exc){
+                Double fmoney = Utils.parseMoney(money);
+                if(fmoney == null){
                     Toast.makeText(getContext(), "Please enter valid money value!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 addMoney(fmoney);
 
             }
@@ -119,7 +115,6 @@ public class UserProfileFragment extends Fragment {
     public void addMoney(Double amount){
         HashMap<String, Object> data = new HashMap<>();
 
-        data.put("uid", user.getId());
         data.put("currentbalance", amount);
 
         am.toggleDialog(true);

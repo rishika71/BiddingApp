@@ -35,7 +35,6 @@ exports.addMoney = functions.https.onCall(async (data, context) => {
 })
 
 exports.postNewItem = functions.https.onCall(async (data, context) => {
-  // data has item obj
     const result = await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).get();
     const profile = result.data();
     if (typeof profile === "undefined") {
@@ -47,27 +46,11 @@ exports.postNewItem = functions.https.onCall(async (data, context) => {
       const details = {currentbalance: admin.firestore.FieldValue.increment(-1)}
       await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).update(details);
 
-      const item = {
-        owner_id: context.auth.uid,
-        item_obj: JSON.parse(data.item),
-        minFinalBid: data.minFinalBid,
-        winningBid: {
-          bidAmount: data.startBid,
-          noti_token: profile.noti_token,
-          userId: context.auth.uid,
-        },
-        previousbids: [
-          {
-            bidAmount: data.startBid,
-            noti_token: profile.noti_token,
-            userId: context.auth.uid,
-          },
-        ],
-      }
-      await admin.firestore().collection(DB_AUCTION).doc(item.id).set(details);
+      const writeResult = await admin.firestore().collection(DB_AUCTION).add(data);
       return {
         result: `Success`,
         details: details,
+          wid: writeResult.id
       };
     }
     return {
@@ -124,30 +107,24 @@ exports.bidOnItem = functions.https.onCall(async (data, context) => {
       };
     }
 
-  const amount = data.bidAmount + 1;
-  if (profile.currentbalance >= amount && (data.bidAmount >= itemData.data().winningBid.bidAmount)) {
+  const amount = data.amount + 1;
+  if (profile.currentbalance >= amount) {
       const details = {currentbalance: admin.firestore.FieldValue.increment(-1)}
       await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).update(details);
 
-      const bidDetails = {
-        bidAmount: data.bidAmount,
-        userId: context.auth.uid,
-        noti_token: profile.noti_token,
-      }
-
       const itemDb = await admin.firestore().collection(DB_AUCTION).doc(data.itemId);
-      await itemDb.update({
-        previousbids: admin.firestore.FieldValue.arrayUnion(bidDetails),
-      });
+      await itemDb.update({previousbids: admin.firestore.FieldValue.arrayUnion(data),});
 
       const updWiningBid = await admin.firestore().collection(DB_AUCTION).doc(data.itemId).get();
       const bidArray = await updWiningBid.data().previousbids;
 
-      const max = Math.max.apply(Math, bidArray.map(function (o) { return o.bidAmount; }))
+      const max = Math.max.apply(Math, bidArray.map(function (o) {
+          return o.amount;
+      })) // get win bid
+      const winBid = bidArray.find(element => element.amount === max);
 
-      const winBid = bidArray.find(element => element.bidAmount === max);
       await itemDb.update({
-        winningBid: winBid,
+        winningBid: winBid.id,
       });
 
       return {
@@ -155,16 +132,9 @@ exports.bidOnItem = functions.https.onCall(async (data, context) => {
         bidDetails: bidDetails,
       };
     } else {
-      if (amount < itemData.data().winningBid.bidAmount) {
-        return {
-          result: `Error: Bid must be greater than or equal to the currentBid`,
-        };
-      }
-      else {
         return {
           result: `Error: Insufficient funds!`,
         };
-      }
     }
 })
 
@@ -273,21 +243,14 @@ exports.cancelBid = functions.https.onCall(async (data, context) => {
     }
 
     if (itemData.data().winningBid.userId === context.auth.uid) {
-      if(itemData.data().owner === context.auth.uid){
-        await admin.firestore().collection(DB_AUCTION).doc(data.itemId).delete();
-        return {
-          result: `Success`,
-        };
-      }
-      else{
-        let filteredItems = itemData.data().previousbids.filter(item => item.userId !== itemData.data().winningBid.userId)
+        let filteredItems = itemData.data().previousbids.filter(item => item.bidder_id !== itemData.data().winningBid.bidder_id)
         let winBid;
         for (let i = 0; i < filteredItems.length; i++) {
-          let max = Math.max.apply(Math, filteredItems.map(function (o) { return o.bidAmount; }))
-          winBid = filteredItems.find(element => element.bidAmount === max);
-          const checkUserBalance = await admin.firestore().collection(DB_PROFILES).doc(winBid.userId).get();
-          if (checkUserBalance.data().currentbalance < winBid.bidAmount) {
-            filteredItems = filteredItems.filter(item => item.userId !== winBid.userId)
+          let max = Math.max.apply(Math, filteredItems.map(function (o) { return o.amount; }))
+          winBid = filteredItems.find(element => element.amount === max);
+          const checkUserBalance = await admin.firestore().collection(DB_PROFILES).doc(winBid.bidder_id).get();
+          if (checkUserBalance.data().currentbalance < winBid.amount) {
+            filteredItems = filteredItems.filter(item => item.bidder_id !== winBid.bidder_id)
           } else {
             break;
           }
@@ -297,12 +260,6 @@ exports.cancelBid = functions.https.onCall(async (data, context) => {
         return {
           result: `Success`,
         };
-      }
-    } else if(itemData.data().owner === context.auth.uid){
-      await admin.firestore().collection('Items').doc(data.itemId).delete();
-      return {
-        result: `Success`,
-      };
     } else {
       return {
         result: `Error: You do not have the winning bid.`,
@@ -326,12 +283,12 @@ exports.acceptBidOnItem = functions.https.onCall(async (data, context) => {
       };
     }
 
-    if (itemData.data().owner === context.auth.uid && itemData.data().winningBid.bidAmount >= itemData.data().minfinalbid) {
+    if (itemData.data().owner === context.auth.uid && itemData.data().winningBid.amount >= itemData.data().finalBid) {
 
-      const winnerId = itemData.data().winningBid.userId;
+      const winnerId = itemData.data().winningBid.bidder_id;
       const itemName = itemData.data().item.name;
 
-      const amount = itemData.data().winningBid.bidAmount;
+      const amount = itemData.data().winningBid.amount;
 
       const details = {
           currentbalance: admin.firestore.FieldValue.increment(amount),
@@ -339,12 +296,12 @@ exports.acceptBidOnItem = functions.https.onCall(async (data, context) => {
 
       await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).update(details);
 
-      const itemDeleted = await admin.firestore().collection(DB_AUCTION).doc(data.itemId).delete();
+      await admin.firestore().collection(DB_AUCTION).doc(data.itemId).delete();
 
       let date_ob = new Date();
       const transDetails = {
         history: admin.firestore.FieldValue.arrayUnion({
-          sellerId: context.auth.uid,
+          seller_id: context.auth.uid,
           item: itemName,
           price: amount,
           date: date_ob,
@@ -357,7 +314,6 @@ exports.acceptBidOnItem = functions.https.onCall(async (data, context) => {
         result: `Success`,
       };
     }
-
     return {
       result: `Error: Bid amount should be more than Final Bid Amount.`,
     };

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -52,6 +53,7 @@ public class HistoryFragment extends Fragment {
 
         binding = FragmentHistoryBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+        navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
 
         user = am.getUser();
 

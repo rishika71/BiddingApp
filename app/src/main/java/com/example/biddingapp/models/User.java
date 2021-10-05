@@ -7,6 +7,15 @@ public class User implements Serializable {
 
     String firstname, lastname, email, id;
     Double currentbalance = 200.00, hold = 0.00;
+    String noti_token = null;
+
+    public String getNoti_token() {
+        return noti_token;
+    }
+
+    public void setNoti_token(String noti_token) {
+        this.noti_token = noti_token;
+    }
 
     public String getEmail() {
         return email;
@@ -16,6 +25,9 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    public String getDisplayName(){
+        return this.firstname + " " + this.lastname;
+    }
 
     public User(){}
 

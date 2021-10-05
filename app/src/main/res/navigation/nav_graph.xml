@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_tradingFragment_to_postItemFragment"
             app:destination="@id/postItemFragment" />
+        <action
+            android:id="@+id/action_tradingFragment_to_itemViewFragment"
+            app:destination="@id/itemViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
@@ -82,4 +85,9 @@
         android:name="com.example.biddingapp.fragment.PostItemFragment"
         android:label="fragment_post_item"
         tools:layout="@layout/fragment_post_item" />
+    <fragment
+        android:id="@+id/itemViewFragment"
+        android:name="com.example.biddingapp.fragment.ItemViewFragment"
+        android:label="fragment_item_view"
+        tools:layout="@layout/fragment_item_view" />
 </navigation>

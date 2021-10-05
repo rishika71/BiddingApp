@@ -10,13 +10,14 @@ import android.os.Bundle;
 import com.example.biddingapp.databinding.ActivityMainBinding;
 import com.example.biddingapp.fragment.CreateNewAccountFragment;
 import com.example.biddingapp.fragment.HistoryFragment;
+import com.example.biddingapp.fragment.ItemViewFragment;
 import com.example.biddingapp.fragment.LoginFragment;
 import com.example.biddingapp.fragment.PostItemFragment;
 import com.example.biddingapp.fragment.TradingFragment;
 import com.example.biddingapp.fragment.UserProfileFragment;
 import com.example.biddingapp.models.User;
 
-public class MainActivity extends AppCompatActivity implements LoginFragment.ILogin, CreateNewAccountFragment.IRegister, UserProfileFragment.IUserProfile, HistoryFragment.IHistory, TradingFragment.ITrading, PostItemFragment.IPostItem {
+public class MainActivity extends AppCompatActivity implements LoginFragment.ILogin, CreateNewAccountFragment.IRegister, UserProfileFragment.IUserProfile, HistoryFragment.IHistory, TradingFragment.ITrading, PostItemFragment.IPostItem, ItemViewFragment.IItemView {
 
     private ActivityMainBinding binding;
     User user = null;
