@@ -16,6 +16,7 @@ exports.createUserProfile = functions.https.onCall(async(data, context) => {
         email: context.auth.token.email || null,
     };
     const refback = await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).set(details);
+    await admin.firestore().collection(DB_TRANSACTION).doc(context.auth.uid).set({history: []});
     return {
       result: `Success`,
       details: details,
@@ -74,21 +75,15 @@ exports.cancelItem = functions.https.onCall(async (data, context) => {
     };
   }
 
-  if (itemData.data().owner === context.auth.uid) {
     await admin.firestore().collection(DB_AUCTION).doc(data.itemId).delete();
-    const bidWinner = itemData.winningBid.userId;
-    const amount = itemData.winningBid.bidAmount;
+    const bidWinner = itemData.winningBid.bidder_id;
+    const amount = itemData.winningBid.amount;
 
-    let userDetailsNew = {currentbalance: admin.firestore.FieldValue.increment(amount)}
-    await admin.firestore().collection(DB_PROFILES).doc(bidWinner).update(userDetailsNew);
+    await admin.firestore().collection(DB_PROFILES).doc(bidWinner).update({currentbalance: admin.firestore.FieldValue.increment(amount)});
     return {
       result: `Success`,
     };
-  }
 
-  return {
-    result: `User does not have permission to delete this item`,
-  };
 })
 
 exports.bidOnItem = functions.https.onCall(async (data, context) => {
@@ -140,14 +135,14 @@ exports.bidOnItem = functions.https.onCall(async (data, context) => {
 
 exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{itemId}').onUpdate((change, context) => {
 
-  const newBidWinner = change.after.data().winningBid.userId;
-  const previousBidWinner = change.before.data().winningBid.userId;
+  const newBidWinner = change.after.data().winningBid.bidder_id;
+  const previousBidWinner = change.before.data().winningBid.bidder_id;
 
   if (change.before.data().previousbids.length > change.after.data().previousbids.length) {
     let newmessage = {
       notification: {
-        title: 'Auction Won',
-        body: 'Your bid was the highest',
+        title: 'Auction Update',
+        body: 'Your bid is the highest',
       },
       token: change.after.data().winningBid.noti_token,
     };
@@ -159,21 +154,21 @@ exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{ite
           console.log('Error: ', error);
         });
 
-    if (change.before.data().winningBid.userId !== change.before.data().owner) {
-      let amount1 = change.before.data().winningBid.bidAmount;
+    if (change.before.data().winningBid.bidder_id !== change.before.data().owner) {
+      let amount1 = change.before.data().winningBid.amount;
       let prev_details = {
-          currentbalance: admin.firestore.FieldValue.increment(amount1),
+        currentbalance: admin.firestore.FieldValue.increment(amount1),
         hold: admin.firestore.FieldValue.increment(-amount1),
       }
       const docRef = admin.firestore().collection(DB_PROFILES).doc(previousBidWinner);
       const _ = docRef.update(prev_details);
     }
 
-    if (change.after.data().winningBid.userId !== change.after.data().owner) {
+    if (change.after.data().winningBid.bidder_id !== change.after.data().owner) {
       const docRefNew = admin.firestore().collection(DB_PROFILES).doc(newBidWinner);
-      let amount2 = change.after.data().winningBid.bidAmount;
+      let amount2 = change.after.data().winningBid.amount;
       let after_details = {
-          currentbalance: admin.firestore.FieldValue.increment(-amount2),
+        currentbalance: admin.firestore.FieldValue.increment(-amount2),
         hold: admin.firestore.FieldValue.increment(amount2),
       }
       const _ = docRefNew.update(after_details);
@@ -182,7 +177,7 @@ exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{ite
   } else {
     const newmessage1 = {
       notification: {
-        title: 'Auction Lost',
+        title: 'Auction Update',
         body: 'Your bid isnt the highest',
       },
       token: change.before.data().winningBid.noti_token,
@@ -195,21 +190,21 @@ exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{ite
           console.log('Error: ', error);
         });
 
-    if (change.after.data().winningBid.userId !== change.after.data().owner) {
-      let amount3 = change.after.data().winningBid.bidAmount;
+    if (change.after.data().winningBid.bidder_id !== change.after.data().owner) {
+      let amount3 = change.after.data().winningBid.amount;
       let new_details = {
-          currentbalance: admin.firestore.FieldValue.increment(-amount3),
+        currentbalance: admin.firestore.FieldValue.increment(-amount3),
         hold: admin.firestore.FieldValue.increment(amount3),
       }
       const docRef = admin.firestore().collection(DB_PROFILES).doc(newBidWinner);
       const balanceWriteResult = docRef.update(new_details);
     }
 
-    if (change.before.data().winningBid.userId !== change.before.data().owner) {
+    if (change.before.data().winningBid.bidder_id !== change.before.data().owner) {
       const docRefNew = admin.firestore().collection(DB_PROFILES).doc(previousBidWinner);
-      let amount4 = change.before.data().winningBid.bidAmount;
+      let amount4 = change.before.data().winningBid.amount;
       let prev_details = {
-          currentbalance: admin.firestore.FieldValue.increment(amount4),
+        currentbalance: admin.firestore.FieldValue.increment(amount4),
         hold: admin.firestore.FieldValue.increment(-amount4),
       }
       const balanceOnHoldWriteResult = docRefNew.update(prev_details);
@@ -218,8 +213,8 @@ exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{ite
 });
 
 exports.updateOnItemDelete = functions.firestore.document(DB_AUCTION + '/' + '{itemId}').onDelete((change, context) => {
-  const bidWinner = change.data().winningBid.userId;
-  const amount = change.data().winningBid.bidAmount;
+  const bidWinner = change.data().winningBid.bidder_id;
+  const amount = change.data().winningBid.amount;
 
   let new_details = { hold: admin.firestore.FieldValue.increment(-amount) }
   const docRef = admin.firestore().collection(DB_PROFILES).doc(bidWinner);
@@ -242,7 +237,7 @@ exports.cancelBid = functions.https.onCall(async (data, context) => {
       };
     }
 
-    if (itemData.data().winningBid.userId === context.auth.uid) {
+    if (itemData.data().winningBid.bidder_id === context.auth.uid) {
         let filteredItems = itemData.data().previousbids.filter(item => item.bidder_id !== itemData.data().winningBid.bidder_id)
         let winBid;
         for (let i = 0; i < filteredItems.length; i++) {
@@ -301,7 +296,7 @@ exports.acceptBidOnItem = functions.https.onCall(async (data, context) => {
       let date_ob = new Date();
       const transDetails = {
         history: admin.firestore.FieldValue.arrayUnion({
-          seller_id: context.auth.uid,
+          seller_id: context.auth.uid, seller_name: data.owner_name,
           item: itemName,
           price: amount,
           date: date_ob,
@@ -316,20 +311,5 @@ exports.acceptBidOnItem = functions.https.onCall(async (data, context) => {
     }
     return {
       result: `Error: Bid amount should be more than Final Bid Amount.`,
-    };
-})
-
-exports.getHistory = functions.https.onCall(async (data, context) => {
-    const result = await admin.firestore().collection(DB_TRANSACTION).doc(context.auth.uid).get();
-    const history = result.data();
-    if (typeof history === "undefined") {
-      return {
-        result: `Error: Unknown user`,
-      };
-    }
-    return {
-      result: {
-        "history": history.history,
-      },
     };
 })

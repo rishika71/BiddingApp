@@ -43,8 +43,6 @@ public class TradingFragment extends Fragment {
     NavController navController;
     User user;
     ITrading am;
-    ArrayList<Item> items = new ArrayList<>();
-    ItemAdapter itemAdapter;
 
     FirebaseFirestore firestore;
 
@@ -104,11 +102,11 @@ public class TradingFragment extends Fragment {
                     return;
                 }
 
-                items.clear();
+                ArrayList<Item> items = new ArrayList<>();
                 for (QueryDocumentSnapshot doc : value) {
                     Item item = doc.toObject(Item.class);
                     item.setId(doc.getId());
-                    items.add(item);
+                    if(!item.getOwner_id().equals(user.getId())) items.add(item);
                 }
 
                 binding.auctionView.setAdapter(new ItemAdapter(items));

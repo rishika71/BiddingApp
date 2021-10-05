@@ -124,7 +124,7 @@ public class PostItemFragment extends Fragment {
                         task.getException().printStackTrace();
                         return;
                     }
-                    Log.d("ddd", "onComplete: " + task.getResult());
+
                     am.toggleDialog(false);
                     am.alert("Item Posted!");
                     navController.popBackStack();

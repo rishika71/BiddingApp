@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.biddingapp.R;
 import com.example.biddingapp.databinding.FragmentHistoryBinding;
-import com.example.biddingapp.databinding.FragmentItemViewBinding;
+import com.example.biddingapp.databinding.FragmentOwnItemViewBinding;
 import com.example.biddingapp.models.Bid;
 import com.example.biddingapp.models.Item;
 import com.example.biddingapp.models.User;
@@ -32,25 +31,27 @@ import com.google.firebase.functions.HttpsCallableResult;
 
 import java.util.HashMap;
 
-public class ItemViewFragment extends Fragment {
+public class OwnItemViewFragment extends Fragment {
 
-    FragmentItemViewBinding binding;
-
-    FirebaseFunctions mFunctions;
+    FragmentOwnItemViewBinding binding;
 
     NavController navController;
 
-    IItemView am;
+    FirebaseFunctions mFunctions;
+
+    IOwnItemView am;
 
     User user;
+
+    Bid winBid;
 
     Item item;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof IItemView) {
-            am = (IItemView) context;
+        if (context instanceof IOwnItemView) {
+            am = (IOwnItemView) context;
         } else {
             throw new RuntimeException(context.toString());
         }
@@ -67,68 +68,61 @@ public class ItemViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getActivity().setTitle("Item View");
+        getActivity().setTitle("Item " + item.getName());
 
         mFunctions = FirebaseFunctions.getInstance();
 
-        binding = FragmentItemViewBinding.inflate(inflater, container, false);
+        binding = FragmentOwnItemViewBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
 
         user = am.getUser();
 
+        if(item.getWinningBid() == null)
+            binding.button4.setEnabled(false);
+
         binding.textView7.setText(item.getName());
-        binding.txtview.setText("Owner - " + item.getOwner_name());
+        binding.txtview.setText("Owner - You");
         binding.textView10.setText("Created - " + Utils.getPrettyTime(item.getCreated_at()));
-        Bid winBid = item.getWinBid();
+        winBid = item.getWinBid();
         if(winBid != null)
             binding.textView12.setText("Winning Bid - " + winBid.getBidder_name() + " - $" + winBid.getAmount());
 
-        binding.button3.setOnClickListener(new View.OnClickListener() {
+        binding.textView16.setText("Final Bid by " + winBid.getBidder_name() + " - $" + winBid.getAmount());
+
+        binding.button6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String bid = binding.editTextTextPersonName5.getText().toString();
-                if(bid.equals("")){
-                    Toast.makeText(getContext(), "Please enter bid amount!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Double fbid = Utils.parseMoney(bid);
-                if(fbid == null){
-                    Toast.makeText(getContext(), "Please enter valid value for bid!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(winBid != null && fbid <= winBid.getAmount()){
-                    Toast.makeText(getContext(), "Please enter higher bid than the win bid!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                bidOnItem(fbid);
+                cancelItem();
             }
         });
 
         binding.button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(winBid == null || !winBid.getBidder_id().equals(user.getId())){
-                    Toast.makeText(getContext(), "You're not the winning bid!", Toast.LENGTH_SHORT).show();
+                if(winBid.getAmount() < item.getFinalBid()){
+                    Toast.makeText(getContext(), "Bid has not reached minimum final bid amount yet!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                acceptBidOnItem();
             }
         });
 
         return view;
     }
 
-    private void cancelBid(){
+    private void cancelItem(){
         HashMap<String, Object> data = new HashMap<>();
         data.put("itemId", item.getId());
-        data.put("bidder_id", user.getId());
 
         am.toggleDialog(true);
-        mFunctions.getHttpsCallable("cancelBid").call(data).continueWith(new Continuation<HttpsCallableResult, Object>() {
+
+        mFunctions
+                .getHttpsCallable("cancelItem")
+                .call(data).continueWith(new Continuation<HttpsCallableResult, Object>() {
             @Override
             public Object then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                return task.getResult().getData();
+                return null;
             }
         }).addOnCompleteListener(new OnCompleteListener<Object>() {
             @Override
@@ -138,25 +132,25 @@ public class ItemViewFragment extends Fragment {
                     return;
                 }
                 am.toggleDialog(false);
-                am.alert("Winning bid Cancelled!");
+                am.alert("Item removed!");
                 navController.popBackStack();
             }
         });
     }
 
-    private void bidOnItem(Double bid){
+    private void acceptBidOnItem(){
         HashMap<String, Object> data = new HashMap<>();
-        data.put("id", item.getNewBidId());
         data.put("itemId", item.getId());
-        data.put("amount", bid);
-        data.put("bidder_id", user.getId());
-        data.put("bidder_name", user.getDisplayName());
+        data.put("owner_name", user.getDisplayName());
 
         am.toggleDialog(true);
-        mFunctions.getHttpsCallable("bidOnItem").call(data).continueWith(new Continuation<HttpsCallableResult, Object>() {
+
+        mFunctions
+                .getHttpsCallable("acceptBidOnItem")
+                .call(data).continueWith(new Continuation<HttpsCallableResult, Object>() {
             @Override
             public Object then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                return task.getResult().getData();
+                return null;
             }
         }).addOnCompleteListener(new OnCompleteListener<Object>() {
             @Override
@@ -165,16 +159,14 @@ public class ItemViewFragment extends Fragment {
                     task.getException().printStackTrace();
                     return;
                 }
-                Log.d("ddd", "onComplete: " + task.getResult());
-
                 am.toggleDialog(false);
-                am.alert("Bid Placed!");
+                am.alert("Bid accepted! Item is now off the list!");
                 navController.popBackStack();
             }
         });
     }
 
-    public interface IItemView{
+    public interface IOwnItemView{
 
         User getUser();
 

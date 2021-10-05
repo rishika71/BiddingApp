@@ -85,6 +85,13 @@ public class UserProfileFragment extends Fragment {
             }
         });
 
+        binding.button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController.navigate(R.id.action_userProfileFragment_to_myItemsFragment);
+            }
+        });
+
         binding.bottomNavigation.setSelectedItemId(R.id.profileIcons);
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
