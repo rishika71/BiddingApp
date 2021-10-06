@@ -6,6 +6,7 @@ admin.initializeApp();
 const DB_PROFILES = "profiles";
 const DB_AUCTION = "auction";
 const DB_TRANSACTION = "transaction";
+const DB_HISTORY = "history";
 
 exports.createUserProfile = functions.https.onCall(async(data, context) => {
     const details = {
@@ -16,10 +17,8 @@ exports.createUserProfile = functions.https.onCall(async(data, context) => {
         email: context.auth.token.email || null,
     };
     const refback = await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).set(details);
-    await admin.firestore().collection(DB_TRANSACTION).doc(context.auth.uid).set({history: []});
     return {
       result: `Success`,
-      details: details,
       id: refback.id
     };
 })
@@ -31,7 +30,6 @@ exports.addMoney = functions.https.onCall(async (data, context) => {
     await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).update(details);
     return {
       result: `Success`,
-      details: details,
     };
 })
 
@@ -47,10 +45,10 @@ exports.postNewItem = functions.https.onCall(async (data, context) => {
       const details = {currentbalance: admin.firestore.FieldValue.increment(-1)}
       await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).update(details);
 
+      data['created_at'] = new Date()
       const writeResult = await admin.firestore().collection(DB_AUCTION).add(data);
       return {
         result: `Success`,
-        details: details,
           wid: writeResult.id
       };
     }
@@ -76,8 +74,8 @@ exports.cancelItem = functions.https.onCall(async (data, context) => {
   }
 
     await admin.firestore().collection(DB_AUCTION).doc(data.itemId).delete();
-    const bidWinner = itemData.winningBid.bidder_id;
-    const amount = itemData.winningBid.amount;
+    const bidWinner = itemData.data().bids[parseInt(itemData.data().winningBid) - 1].bidder_id;
+    const amount = itemData.data().bids[parseInt(itemData.data().winningBid) - 1].amount;
 
     await admin.firestore().collection(DB_PROFILES).doc(bidWinner).update({currentbalance: admin.firestore.FieldValue.increment(amount)});
     return {
@@ -108,10 +106,10 @@ exports.bidOnItem = functions.https.onCall(async (data, context) => {
       await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).update(details);
 
       const itemDb = await admin.firestore().collection(DB_AUCTION).doc(data.itemId);
-      await itemDb.update({previousbids: admin.firestore.FieldValue.arrayUnion(data),});
+      await itemDb.update({bids: admin.firestore.FieldValue.arrayUnion(data),});
 
       const updWiningBid = await admin.firestore().collection(DB_AUCTION).doc(data.itemId).get();
-      const bidArray = await updWiningBid.data().previousbids;
+      const bidArray = await updWiningBid.data().bids;
 
       const max = Math.max.apply(Math, bidArray.map(function (o) {
           return o.amount;
@@ -124,7 +122,6 @@ exports.bidOnItem = functions.https.onCall(async (data, context) => {
 
       return {
         result: `Success`,
-        bidDetails: bidDetails,
       };
     } else {
         return {
@@ -135,38 +132,52 @@ exports.bidOnItem = functions.https.onCall(async (data, context) => {
 
 exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{itemId}').onUpdate((change, context) => {
 
-  const newBidWinner = change.after.data().winningBid.bidder_id;
-  const previousBidWinner = change.before.data().winningBid.bidder_id;
+    const afterdata = change.after.data()
+    const beforedata = change.before.data()
 
-  if (change.before.data().previousbids.length > change.after.data().previousbids.length) {
-    let newmessage = {
-      notification: {
-        title: 'Auction Update',
-        body: 'Your bid is the highest',
-      },
-      token: change.after.data().winningBid.noti_token,
-    };
-    admin.messaging().send(newmessage)
-        .then((response) => {
-          console.log('Success: ', response);
-        })
-        .catch((error) => {
-          console.log('Error: ', error);
-        });
+    let newBidWinner = null
+    if (typeof afterdata.winningBid !== "undefined") {
+        newBidWinner = afterdata.bids[parseInt(afterdata.winningBid) - 1];
+    }
+    let previousBidWinner = null
+    if (typeof beforedata.winningBid !== "undefined") {
+        previousBidWinner = beforedata.bids[parseInt(beforedata.winningBid) - 1];
+    }
 
-    if (change.before.data().winningBid.bidder_id !== change.before.data().owner) {
-      let amount1 = change.before.data().winningBid.amount;
+  if (beforedata.bids.length > afterdata.bids.length) {
+      if(newBidWinner !== null) {
+          const payload = {
+              data: {},
+              notification:{
+                  title: 'Auction Update',
+                  body: 'Your bid is the highest',
+              },
+              token: newBidWinner.noti_token,
+          };
+          admin.messaging().send(payload)
+              .then((response) => {
+                  console.log('Success: ', response);
+                  return {success: true};
+              })
+              .catch((error) => {
+                  console.log('Error: ', error);
+                  return {error: error.code};
+              });
+      }
+
+    if (previousBidWinner !== null && previousBidWinner.bidder_id !== beforedata.owner) {
+      let amount1 = previousBidWinner.amount;
       let prev_details = {
         currentbalance: admin.firestore.FieldValue.increment(amount1),
         hold: admin.firestore.FieldValue.increment(-amount1),
       }
-      const docRef = admin.firestore().collection(DB_PROFILES).doc(previousBidWinner);
+      const docRef = admin.firestore().collection(DB_PROFILES).doc(previousBidWinner.bidder_id);
       const _ = docRef.update(prev_details);
     }
 
-    if (change.after.data().winningBid.bidder_id !== change.after.data().owner) {
-      const docRefNew = admin.firestore().collection(DB_PROFILES).doc(newBidWinner);
-      let amount2 = change.after.data().winningBid.amount;
+    if (newBidWinner !== null && newBidWinner.bidder_id !== afterdata.owner) {
+      const docRefNew = admin.firestore().collection(DB_PROFILES).doc(newBidWinner.bidder_id);
+      let amount2 = newBidWinner.amount;
       let after_details = {
         currentbalance: admin.firestore.FieldValue.increment(-amount2),
         hold: admin.firestore.FieldValue.increment(amount2),
@@ -175,50 +186,80 @@ exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{ite
     }
 
   } else {
-    const newmessage1 = {
-      notification: {
-        title: 'Auction Update',
-        body: 'Your bid isnt the highest',
-      },
-      token: change.before.data().winningBid.noti_token,
-    };
-    admin.messaging().send(newmessage1)
-        .then((response) => {
-          console.log('Success: ', response);
-        })
-        .catch((error) => {
-          console.log('Error: ', error);
-        });
+      if(previousBidWinner !== null){
+          const payload = {
+              data: {},
+              notification: {
+                  title: 'Auction Update',
+                  body: 'Your bid isnt the highest anymore',
+              },
+              token: previousBidWinner.noti_token,
+          };
+          admin.messaging().send(payload)
+              .then((response) => {
+                  console.log('Success: ', response);
+                  return {success: true};
+              })
+              .catch((error) => {
+                  console.log('Error: ', error);
+                  return {error: error.code};
+              });
+      }
+      if(newBidWinner !== null){
+          const payload = {
+              data: {
+              },
+              notification: {
+                  title: 'Auction Update',
+                  body: 'Your bid is the highest',
+              },
+              token: newBidWinner.noti_token,
+          };
+          admin.messaging().send(payload)
+              .then((response) => {
+                  console.log('Success: ', response);
+                  return {success: true};
+              })
+              .catch((error) => {
+                  console.log('Error: ', error);
+                  return {error: error.code};
+              });
+      }
 
-    if (change.after.data().winningBid.bidder_id !== change.after.data().owner) {
-      let amount3 = change.after.data().winningBid.amount;
+    if (newBidWinner !== null && newBidWinner.bidder_id !== afterdata.owner) {
+      let amount3 = newBidWinner.amount;
       let new_details = {
         currentbalance: admin.firestore.FieldValue.increment(-amount3),
         hold: admin.firestore.FieldValue.increment(amount3),
       }
-      const docRef = admin.firestore().collection(DB_PROFILES).doc(newBidWinner);
-      const balanceWriteResult = docRef.update(new_details);
+      const docRef = admin.firestore().collection(DB_PROFILES).doc(newBidWinner.bidder_id);
+      const WriteResult = docRef.update(new_details);
     }
 
-    if (change.before.data().winningBid.bidder_id !== change.before.data().owner) {
-      const docRefNew = admin.firestore().collection(DB_PROFILES).doc(previousBidWinner);
-      let amount4 = change.before.data().winningBid.amount;
+    if (previousBidWinner !== null && previousBidWinner.bidder_id !== beforedata.owner) {
+      const docRefNew = admin.firestore().collection(DB_PROFILES).doc(previousBidWinner.bidder_id);
+      let amount4 = previousBidWinner.amount;
       let prev_details = {
         currentbalance: admin.firestore.FieldValue.increment(amount4),
         hold: admin.firestore.FieldValue.increment(-amount4),
       }
-      const balanceOnHoldWriteResult = docRefNew.update(prev_details);
+      const OnHoldWriteResult = docRefNew.update(prev_details);
     }
   }
+    return {
+        result: `Success`,
+    };
 });
 
 exports.updateOnItemDelete = functions.firestore.document(DB_AUCTION + '/' + '{itemId}').onDelete((change, context) => {
-  const bidWinner = change.data().winningBid.bidder_id;
-  const amount = change.data().winningBid.amount;
+    const changedata = change.data()
+    const winninBid = changedata.bids[parseInt(changedata.winningBid) - 1]
+  const bidWinner = winninBid.bidder_id;
+  const amount = winninBid.amount;
 
   let new_details = { hold: admin.firestore.FieldValue.increment(-amount) }
   const docRef = admin.firestore().collection(DB_PROFILES).doc(bidWinner);
-  const balanceWriteResult = docRef.update(new_details);
+  return docRef.update(new_details);
 });
 
 exports.cancelBid = functions.https.onCall(async (data, context) => {
@@ -237,8 +278,8 @@ exports.cancelBid = functions.https.onCall(async (data, context) => {
       };
     }
 
-    if (itemData.data().winningBid.bidder_id === context.auth.uid) {
-        let filteredItems = itemData.data().previousbids.filter(item => item.bidder_id !== itemData.data().winningBid.bidder_id)
+    if (itemData.data().bids[parseInt(itemData.data().winningBid) - 1].bidder_id === context.auth.uid) {
+        let filteredItems = itemData.data().bids.filter(item => item.bidder_id !== itemData.data().bids[parseInt(itemData.data().winningBid) - 1].bidder_id)
         let winBid;
         for (let i = 0; i < filteredItems.length; i++) {
           let max = Math.max.apply(Math, filteredItems.map(function (o) { return o.amount; }))
@@ -251,7 +292,7 @@ exports.cancelBid = functions.https.onCall(async (data, context) => {
           }
         }
         const itemDoc = await admin.firestore().collection(DB_AUCTION).doc(data.itemId);
-        await itemDoc.update({winningBid: winBid, previousbids: filteredItems,});
+        await itemDoc.update({winningBid: winBid.id, bids: filteredItems});
         return {
           result: `Success`,
         };
@@ -277,39 +318,26 @@ exports.acceptBidOnItem = functions.https.onCall(async (data, context) => {
         result: `Error: Unknown item`,
       };
     }
+      const winnerId = itemData.data().bids[parseInt(itemData.data().winningBid) - 1].bidder_id;
+      const itemName = itemData.data().name;
 
-    if (itemData.data().owner === context.auth.uid && itemData.data().winningBid.amount >= itemData.data().finalBid) {
+      const amount = itemData.data().bids[parseInt(itemData.data().winningBid) - 1].amount;
 
-      const winnerId = itemData.data().winningBid.bidder_id;
-      const itemName = itemData.data().item.name;
-
-      const amount = itemData.data().winningBid.amount;
-
-      const details = {
-          currentbalance: admin.firestore.FieldValue.increment(amount),
-      }
-
-      await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).update(details);
+      await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).update({currentbalance: admin.firestore.FieldValue.increment(amount)});
 
       await admin.firestore().collection(DB_AUCTION).doc(data.itemId).delete();
 
-      let date_ob = new Date();
+      let ddate = new Date();
       const transDetails = {
-        history: admin.firestore.FieldValue.arrayUnion({
           seller_id: context.auth.uid, seller_name: data.owner_name,
           item: itemName,
           price: amount,
-          date: date_ob,
-        }),
+          date: ddate,
       }
 
-      await admin.firestore().collection(DB_TRANSACTION).doc(winnerId).update(transDetails);
+      await admin.firestore().collection(DB_HISTORY).doc(winnerId).collection(DB_TRANSACTION).add(transDetails);
 
       return {
         result: `Success`,
       };
-    }
-    return {
-      result: `Error: Bid amount should be more than Final Bid Amount.`,
-    };
 })

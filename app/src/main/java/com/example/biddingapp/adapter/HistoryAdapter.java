@@ -1,34 +1,27 @@
 package com.example.biddingapp.adapter;
 
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.biddingapp.R;
-import com.example.biddingapp.databinding.AuctionItemBinding;
 import com.example.biddingapp.databinding.HistoryItemBinding;
-import com.example.biddingapp.databinding.YouritemviewBinding;
-import com.example.biddingapp.models.History;
-import com.example.biddingapp.models.Item;
+import com.example.biddingapp.models.Transaction;
 import com.example.biddingapp.models.Utils;
 
 import java.util.ArrayList;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.UViewHolder> {
 
-    ArrayList<History> details;
+    ArrayList<Transaction> details;
 
     HistoryItemBinding binding;
 
     ViewGroup parent;
 
-    public HistoryAdapter(ArrayList<History> details) {
+    public HistoryAdapter(ArrayList<Transaction> details) {
         this.details = details;
     }
 
@@ -43,7 +36,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.UViewHol
     @Override
     public void onBindViewHolder(@NonNull UViewHolder holder, int position) {
 
-        History history = details.get(position);
+        Transaction history = details.get(position);
 
         binding.textView17.setText(history.getItem());
         binding.textView18.setText("Seller: " + history.getSeller_name());

@@ -43,7 +43,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.UViewHolder> {
         Item item = items.get(position);
 
         binding.textView3.setText(item.getName());
-        binding.textView4.setText(item.getOwner_name());
+        binding.textView4.setText("Owner: " + item.getOwner_name());
         binding.textView5.setText("Start: $" + item.getStartBid());
         binding.textView6.setText("Final: $" + item.getFinalBid());
 

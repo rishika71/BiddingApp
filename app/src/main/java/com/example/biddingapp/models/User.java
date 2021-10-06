@@ -79,6 +79,11 @@ public class User implements Serializable {
         return "$" + decimalFormat.format(this.currentbalance);
     }
 
+    public String getPrettyHold(){
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        return "$" + decimalFormat.format(this.hold);
+    }
+
     public String getId() {
         return id;
     }

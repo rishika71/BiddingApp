@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -23,6 +24,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
 
@@ -35,6 +40,7 @@ public class UserProfileFragment extends Fragment {
     NavController navController;
     IUserProfile am;
     User user;
+    FirebaseFirestore db;
     FirebaseFunctions mFunctions;
 
     @Override
@@ -60,12 +66,34 @@ public class UserProfileFragment extends Fragment {
 
         user = am.getUser();
 
-        navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
+        db = FirebaseFirestore.getInstance();
 
-        binding.firstnameTextViewId.setText(user.getFirstname());
-        binding.lastnameTextViewId.setText(user.getLastname());
-        binding.lastnameTextViewId2.setText(user.getEmail());
-        binding.lastnameTextViewId3.setText(user.getPrettyBalance());
+        am.toggleDialog(true);
+        db.collection(Utils.DB_PROFILE).document(user.getId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (value == null) {
+                    return;
+                }
+
+                am.toggleDialog(false);
+                user = value.toObject(User.class);
+                user.setId(value.getId());
+                am.setUser(user);
+
+                binding.firstnameTextViewId.setText(user.getFirstname());
+                binding.lastnameTextViewId.setText(user.getLastname());
+                binding.lastnameTextViewId2.setText(user.getEmail());
+                binding.lastnameTextViewId3.setText(user.getPrettyBalance());
+                binding.lastnameTextViewId4.setText(user.getPrettyHold());
+            }
+        });
+
+        navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
 
         binding.button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +179,8 @@ public class UserProfileFragment extends Fragment {
     public interface IUserProfile {
 
         User getUser();
+
+        void setUser(User user);
 
         void toggleDialog(boolean show);
 

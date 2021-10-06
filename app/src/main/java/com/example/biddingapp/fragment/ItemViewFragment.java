@@ -69,6 +69,8 @@ public class ItemViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         getActivity().setTitle("Item View");
 
+        Log.d("ddd", "onCreateView: " + item);
+
         mFunctions = FirebaseFunctions.getInstance();
 
         binding = FragmentItemViewBinding.inflate(inflater, container, false);
@@ -77,12 +79,23 @@ public class ItemViewFragment extends Fragment {
 
         user = am.getUser();
 
+        if(item.getOwner_id().equals(user.getId())){
+            binding.button3.setEnabled(false);
+            binding.button4.setEnabled(false);
+            binding.editTextTextPersonName5.setEnabled(false);
+        }
+
         binding.textView7.setText(item.getName());
         binding.txtview.setText("Owner - " + item.getOwner_name());
         binding.textView10.setText("Created - " + Utils.getPrettyTime(item.getCreated_at()));
+        binding.textView12.setText("Starting Bid - $" + item.getStartBid());
+        binding.textView23.setText("Min Final Bid - $" + item.getFinalBid());
+
         Bid winBid = item.getWinBid();
         if(winBid != null)
-            binding.textView12.setText("Winning Bid - " + winBid.getBidder_name() + " - $" + winBid.getAmount());
+            binding.textView22.setText("Winning Bid - " + winBid.getBidder_name() + " - $" + winBid.getAmount());
+        else
+            binding.textView22.setText("Winning Bid - None");
 
         binding.button3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,8 +110,16 @@ public class ItemViewFragment extends Fragment {
                     Toast.makeText(getContext(), "Please enter valid value for bid!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if(fbid < item.getStartBid()){
+                    Toast.makeText(getContext(), "Please enter value higher than the start bid!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if(winBid != null && fbid <= winBid.getAmount()){
                     Toast.makeText(getContext(), "Please enter higher bid than the win bid!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(winBid != null && winBid.getBidder_id().equals(user.getId())){
+                    Toast.makeText(getContext(), "You already have the win bid!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 bidOnItem(fbid);
@@ -112,7 +133,7 @@ public class ItemViewFragment extends Fragment {
                     Toast.makeText(getContext(), "You're not the winning bid!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                cancelBid();
             }
         });
 
@@ -149,6 +170,7 @@ public class ItemViewFragment extends Fragment {
         data.put("id", item.getNewBidId());
         data.put("itemId", item.getId());
         data.put("amount", bid);
+        data.put("noti_token", user.getNoti_token());
         data.put("bidder_id", user.getId());
         data.put("bidder_name", user.getDisplayName());
 

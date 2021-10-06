@@ -9,6 +9,7 @@ public class Utils {
     public static final String DB_PROFILE = "profiles";
     public static final String DB_AUCTION = "auction";
     public static final String DB_TRANSACTION = "transaction";
+    public static final String DB_HISTORY = "history";
 
     public static Double parseMoney(String money){
         Double fmoney;

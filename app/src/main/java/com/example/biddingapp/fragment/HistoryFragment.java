@@ -19,10 +19,8 @@ import android.widget.Toast;
 
 import com.example.biddingapp.R;
 import com.example.biddingapp.adapter.HistoryAdapter;
-import com.example.biddingapp.adapter.YourItemAdapter;
+import com.example.biddingapp.adapter.ItemAdapter;
 import com.example.biddingapp.databinding.FragmentHistoryBinding;
-import com.example.biddingapp.databinding.FragmentUserProfileBinding;
-import com.example.biddingapp.models.History;
 import com.example.biddingapp.models.Item;
 import com.example.biddingapp.models.Transaction;
 import com.example.biddingapp.models.User;
@@ -38,7 +36,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.functions.FirebaseFunctions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class HistoryFragment extends Fragment {
@@ -88,9 +85,9 @@ public class HistoryFragment extends Fragment {
                 llm.getOrientation());
         binding.historyView.addItemDecoration(dividerItemDecoration);
 
-        db.collection(Utils.DB_TRANSACTION).document(user.getId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        db.collection(Utils.DB_HISTORY).document(user.getId()).collection(Utils.DB_TRANSACTION).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
                     Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
@@ -99,10 +96,12 @@ public class HistoryFragment extends Fragment {
                     return;
                 }
 
-                Transaction transaction = value.toObject(Transaction.class);
-                ArrayList<History> details = new ArrayList<>();
-                for (History history : transaction.getHistory())
-                    details.add(history);
+                ArrayList<Transaction> details = new ArrayList<>();
+                for (QueryDocumentSnapshot doc : value) {
+                    Transaction transaction = doc.toObject(Transaction.class);
+                    transaction.setId(doc.getId());
+                    details.add(transaction);
+                }
 
                 binding.historyView.setAdapter(new HistoryAdapter(details));
             }

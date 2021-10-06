@@ -92,21 +92,21 @@ public class PostItemFragment extends Fragment {
                     return;
                 }
                 Item item = new Item(name, user.getId(), user.getDisplayName(), fstartBid, ffinalBid);
-                postItem(item);
+                postNewItem(item);
             }
         });
 
         return view;
     }
 
-    private void postItem(Item item){
+    private void postNewItem(Item item){
         HashMap<String, Object> mapping = new HashMap<>();
         mapping.put("name", item.getName());
         mapping.put("owner_id", item.getOwner_id());
         mapping.put("owner_name", item.getOwner_name());
-        mapping.put("created_at", item.getCreated_at());
         mapping.put("startBid", item.getStartBid());
         mapping.put("finalBid", item.getFinalBid());
+        mapping.put("bids", item.getBids());
 
         am.toggleDialog(true);
 
@@ -120,12 +120,13 @@ public class PostItemFragment extends Fragment {
                 }).addOnCompleteListener(new OnCompleteListener<Object>() {
                 @Override
                 public void onComplete(@NonNull Task<Object> task) {
+                    am.toggleDialog(false);
+
                     if(!task.isSuccessful()){
                         task.getException().printStackTrace();
                         return;
                     }
 
-                    am.toggleDialog(false);
                     am.alert("Item Posted!");
                     navController.popBackStack();
                 }

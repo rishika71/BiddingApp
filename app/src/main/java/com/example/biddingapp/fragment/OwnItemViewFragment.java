@@ -84,11 +84,14 @@ public class OwnItemViewFragment extends Fragment {
         binding.textView7.setText(item.getName());
         binding.txtview.setText("Owner - You");
         binding.textView10.setText("Created - " + Utils.getPrettyTime(item.getCreated_at()));
+        binding.textView12.setText("Starting Bid - $" + item.getStartBid());
+        binding.textView16.setText("Min Final Bid - $" + item.getFinalBid());
+
         winBid = item.getWinBid();
         if(winBid != null)
-            binding.textView12.setText("Winning Bid - " + winBid.getBidder_name() + " - $" + winBid.getAmount());
-
-        binding.textView16.setText("Final Bid by " + winBid.getBidder_name() + " - $" + winBid.getAmount());
+            binding.textView21.setText("Winning Bid - " + winBid.getBidder_name() + " - $" + winBid.getAmount());
+        else
+            binding.textView21.setText("Winning Bid - None");
 
         binding.button6.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -106,7 +106,7 @@ public class TradingFragment extends Fragment {
                 for (QueryDocumentSnapshot doc : value) {
                     Item item = doc.toObject(Item.class);
                     item.setId(doc.getId());
-                    if(!item.getOwner_id().equals(user.getId())) items.add(item);
+                    items.add(item);
                 }
 
                 binding.auctionView.setAdapter(new ItemAdapter(items));
