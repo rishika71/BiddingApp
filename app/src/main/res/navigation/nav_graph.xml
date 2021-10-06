@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_tradingFragment_to_postItemFragment"
             app:destination="@id/postItemFragment" />
+        <action
+            android:id="@+id/action_tradingFragment_to_itemViewFragment"
+            app:destination="@id/itemViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
@@ -61,6 +64,9 @@
         <action
             android:id="@+id/action_userProfileFragment_to_historyFragment"
             app:destination="@id/historyFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_myItemsFragment"
+            app:destination="@id/myItemsFragment" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
@@ -82,4 +88,23 @@
         android:name="com.example.biddingapp.fragment.PostItemFragment"
         android:label="fragment_post_item"
         tools:layout="@layout/fragment_post_item" />
+    <fragment
+        android:id="@+id/itemViewFragment"
+        android:name="com.example.biddingapp.fragment.ItemViewFragment"
+        android:label="fragment_item_view"
+        tools:layout="@layout/fragment_item_view" />
+    <fragment
+        android:id="@+id/myItemsFragment"
+        android:name="com.example.biddingapp.fragment.MyItemsFragment"
+        android:label="fragment_my_items"
+        tools:layout="@layout/fragment_my_items" >
+        <action
+            android:id="@+id/action_myItemsFragment_to_ownItemViewFragment"
+            app:destination="@id/ownItemViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ownItemViewFragment"
+        android:name="com.example.biddingapp.fragment.OwnItemViewFragment"
+        android:label="fragment_own_item_view"
+        tools:layout="@layout/fragment_own_item_view" />
 </navigation>

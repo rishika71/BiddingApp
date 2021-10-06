@@ -46,6 +46,7 @@ public class CreateNewAccountFragment extends Fragment {
             throw new RuntimeException(context.toString());
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -114,7 +115,6 @@ public class CreateNewAccountFragment extends Fragment {
         data.put("firstname", user.getFirstname());
         data.put("lastname", user.getLastname());
         data.put("email", user.getEmail());
-        data.put("uid", user.getId());
         data.put("currentbalance", user.getCurrentbalance());
 
         mFunctions
