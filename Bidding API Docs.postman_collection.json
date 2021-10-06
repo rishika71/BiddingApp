@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "ea67e272-96a8-45df-8a36-c105565dbb7b",
+		"name": "Bidding API Docs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Profile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user?id=-90371657",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "-90371657",
+							"description": "(Required) ID of the user"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Money",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Post New Item",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "bidOnItem",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "acceptBidOnItem",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "cancelBid",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "cancelItem",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "<Basic Auth Username>",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "<Basic Auth Password>",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://petstore.swagger.io/v1",
+			"type": "string"
+		}
+	]
+}
