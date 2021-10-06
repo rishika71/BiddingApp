@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -26,6 +27,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
 
@@ -40,6 +45,8 @@ public class OwnItemViewFragment extends Fragment {
     FirebaseFunctions mFunctions;
 
     IOwnItemView am;
+
+    FirebaseFirestore db;
 
     User user;
 
@@ -81,17 +88,38 @@ public class OwnItemViewFragment extends Fragment {
         if(item.getWinningBid() == null)
             binding.button4.setEnabled(false);
 
-        binding.textView7.setText(item.getName());
-        binding.txtview.setText("Owner - You");
-        binding.textView10.setText("Created - " + Utils.getPrettyTime(item.getCreated_at()));
-        binding.textView12.setText("Starting Bid - $" + item.getStartBid());
-        binding.textView16.setText("Min Final Bid - $" + item.getFinalBid());
+        db = FirebaseFirestore.getInstance();
 
-        winBid = item.getWinBid();
-        if(winBid != null)
-            binding.textView21.setText("Winning Bid - " + winBid.getBidder_name() + " - $" + winBid.getAmount());
-        else
-            binding.textView21.setText("Winning Bid - None");
+        am.toggleDialog(true);
+        db.collection(Utils.DB_AUCTION).document(item.getId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+               @Override
+               public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                   if (error != null) {
+                       Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                       return;
+                   }
+                   if (value == null) {
+                       return;
+                   }
+                   am.toggleDialog(false);
+
+                   item = value.toObject(Item.class);
+                   item.setId(value.getId());
+
+                   binding.textView7.setText(item.getName());
+                   binding.txtview.setText("Owner - You");
+                   binding.textView10.setText("Created - " + Utils.getPrettyTime(item.getCreated_at()));
+                   binding.textView12.setText("Starting Bid - $" + item.getStartBid());
+                   binding.textView16.setText("Min Final Bid - $" + item.getFinalBid());
+
+                   winBid = item.getWinBid();
+                   if(winBid != null)
+                       binding.textView21.setText("Winning Bid - " + winBid.getBidder_name() + " - $" + winBid.getAmount());
+                   else
+                       binding.textView21.setText("Winning Bid - None");
+
+               }
+           });
 
         binding.button6.setOnClickListener(new View.OnClickListener() {
             @Override
