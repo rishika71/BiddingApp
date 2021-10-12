@@ -26,10 +26,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.ILo
 
     ProgressDialog dialog;
 
-    public void actionBar(boolean show) {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(show);
-    }
-
     public void alert(String alert) {
         runOnUiThread(() -> new AlertDialog.Builder(this)
                 .setTitle(R.string.info)
