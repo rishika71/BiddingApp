@@ -218,7 +218,13 @@ public class ItemViewFragment extends Fragment {
                 Log.d("ddd", "onComplete: " + task.getResult());
 
                 am.toggleDialog(false);
-                am.alert("Bid Placed!");
+
+                if(task.getResult().toString().equals("Success")){
+                    am.alert("Bid Placed!");
+                }else if(task.getResult().toString().equals("Error: Insufficient funds!")){
+                    am.alert("Insufficient funds!");
+                }
+
                 navController.popBackStack();
             }
         });
