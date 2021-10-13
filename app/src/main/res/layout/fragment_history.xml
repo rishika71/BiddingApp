@@ -37,6 +37,7 @@ tools:context=".fragment.HistoryFragment">
         android:text="History"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:textColor="#494747"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
