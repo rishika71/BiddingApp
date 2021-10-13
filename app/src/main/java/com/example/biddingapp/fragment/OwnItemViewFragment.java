@@ -104,6 +104,8 @@ public class OwnItemViewFragment extends Fragment {
                    am.toggleDialog(false);
 
                    item = value.toObject(Item.class);
+                   if(item == null) return;
+
                    item.setId(value.getId());
 
                    binding.textView7.setText(item.getName());

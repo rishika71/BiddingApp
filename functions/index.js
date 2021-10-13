@@ -24,36 +24,41 @@ exports.createUserProfile = functions.https.onCall(async(data, context) => {
 })
 
 exports.addMoney = functions.https.onCall(async (data, context) => {
-    const details = {
-        currentbalance: admin.firestore.FieldValue.increment(data.currentbalance)
+    try{
+        const proRef = await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid);
+        await admin.firestore().runTransaction(async (t) => {
+            t.update(proRef, {currentbalance: admin.firestore.FieldValue.increment(data.currentbalance)});
+        });
+    }catch(e){
+        console.log('Transaction failure:', e);
     }
-    await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).update(details);
     return {
-      result: `Success`,
+        result: `Success`,
     };
 })
 
 exports.postNewItem = functions.https.onCall(async (data, context) => {
-    const result = await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).get();
-    const profile = result.data();
-    if (typeof profile === "undefined") {
-      return {
-        result: `Error: User not found`,
-      };
+    try {
+        const proRef = await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid);
+        await admin.firestore().runTransaction(async (t) => {
+            const doc = await t.get(proRef);
+            const profile = doc.data();
+            if (profile.currentbalance < 1) {
+                return {
+                    result: `Error: No funds!`,
+                };
+            }else{
+                t.update(proRef, {currentbalance: admin.firestore.FieldValue.increment(-1)});
+            }
+        });
+    }catch (e) {
+        console.log('Transaction failure:', e);
     }
-    if (profile.currentbalance >= 1) {
-      const details = {currentbalance: admin.firestore.FieldValue.increment(-1)}
-      await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).update(details);
-
-      data['created_at'] = new Date()
-      const writeResult = await admin.firestore().collection(DB_AUCTION).add(data);
-      return {
-        result: `Success`,
-          wid: writeResult.id
-      };
-    }
+    data['created_at'] = new Date();
+    const writeResult = await admin.firestore().collection(DB_AUCTION).add(data);
     return {
-      result: `Error: No funds!`,
+        result: `Success`,
+        wid: writeResult.id
     };
 })
 
@@ -135,7 +140,7 @@ exports.bidOnItem = functions.https.onCall(async (data, context) => {
     }
 })
 
-exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{itemId}').onUpdate((change, context) => {
+exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{itemId}').onUpdate(async (change, context) => {
 
     const afterdata = change.after.data()
     const beforedata = change.before.data()
@@ -159,15 +164,7 @@ exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{ite
               },
               token: newBidWinner.noti_token,
           };
-          admin.messaging().send(payload)
-              .then((response) => {
-                  console.log('Success: ', response);
-                  return {success: true};
-              })
-              .catch((error) => {
-                  console.log('Error: ', error);
-                  return {error: error.code};
-              });
+          await admin.messaging().send(payload);
       }
 
     if (previousBidWinner && previousBidWinner.bidder_id !== beforedata.owner) {
@@ -200,15 +197,7 @@ exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{ite
               },
               token: previousBidWinner.noti_token,
           };
-          admin.messaging().send(payload)
-              .then((response) => {
-                  console.log('Success: ', response);
-                  return {success: true};
-              })
-              .catch((error) => {
-                  console.log('Error: ', error);
-                  return {error: error.code};
-              });
+          await admin.messaging().send(payload);
       }
       if(newBidWinner){
           const payload = {
@@ -220,15 +209,7 @@ exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{ite
               },
               token: newBidWinner.noti_token,
           };
-          admin.messaging().send(payload)
-              .then((response) => {
-                  console.log('Success: ', response);
-                  return {success: true};
-              })
-              .catch((error) => {
-                  console.log('Error: ', error);
-                  return {error: error.code};
-              });
+          await admin.messaging().send(payload);
       }
 
     if (newBidWinner && newBidWinner.bidder_id !== afterdata.owner) {
@@ -256,7 +237,7 @@ exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{ite
     };
 });
 
-exports.updateOnItemDelete = functions.firestore.document(DB_AUCTION + '/' + '{itemId}').onDelete((change, context) => {
+exports.updateOnItemDelete = functions.firestore.document(DB_AUCTION + '/' + '{itemId}').onDelete(async (change, context) => {
     const changedata = change.data()
     const winninBid = changedata.bids[parseInt(changedata.winningBid) - 1]
     if(winninBid !== undefined) {
