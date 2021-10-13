@@ -109,6 +109,7 @@ public class ItemViewFragment extends Fragment {
                 am.toggleDialog(false);
 
                 item = value.toObject(Item.class);
+                if(item == null) return;
 
                 item.setId(value.getId());
 

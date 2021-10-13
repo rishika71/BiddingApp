@@ -88,7 +88,6 @@ public class TradingFragment extends Fragment {
                     return;
                 }
                 user.setNoti_token(task.getResult());
-                Log.d("ddd", "onComplete: " + task.getResult());
                 firestore.collection(Utils.DB_PROFILE).document(user.getId()).update("noti_token", task.getResult());
             }
         });
