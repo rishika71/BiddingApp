@@ -36,6 +36,7 @@ import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class ItemViewFragment extends Fragment {
 
@@ -219,9 +220,9 @@ public class ItemViewFragment extends Fragment {
 
                 am.toggleDialog(false);
 
-                if(task.getResult().toString().equals("Success")){
+                if(((Map<String, String>)task.getResult()).get("result").equals("Success")){
                     am.alert("Bid Placed!");
-                }else if(task.getResult().toString().equals("Error: Insufficient funds!")){
+                }else if(((Map<String, String>)task.getResult()).get("result").equals("Error: Insufficient funds!")){
                     am.alert("Insufficient funds!");
                 }
 
