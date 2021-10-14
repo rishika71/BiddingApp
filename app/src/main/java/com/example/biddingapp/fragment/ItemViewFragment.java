@@ -153,6 +153,10 @@ public class ItemViewFragment extends Fragment {
                     Toast.makeText(getContext(), "You already have the win bid!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if(fbid + 1 > user.getCurrentbalance()){
+                    Toast.makeText(getContext(), "Insufficient funds!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 bidOnItem(fbid);
             }
         });
@@ -218,15 +222,10 @@ public class ItemViewFragment extends Fragment {
                     task.getException().printStackTrace();
                     return;
                 }
-                Log.d("ddd", "onComplete: " + task.getResult());
 
                 am.toggleDialog(false);
 
-                if(((Map<String, String>)task.getResult()).get("result").equals("Success")){
-                    am.alert("Bid Placed!");
-                }else if(((Map<String, String>)task.getResult()).get("result").equals("Error: Insufficient funds!")){
-                    am.alert("Insufficient funds!");
-                }
+                am.alert("Bid Placed!");
 
                 navController.popBackStack();
             }

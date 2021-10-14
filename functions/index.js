@@ -24,41 +24,36 @@ exports.createUserProfile = functions.https.onCall(async(data, context) => {
 })
 
 exports.addMoney = functions.https.onCall(async (data, context) => {
-    try{
-        const proRef = await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid);
-        await admin.firestore().runTransaction(async (t) => {
-            t.update(proRef, {currentbalance: admin.firestore.FieldValue.increment(data.currentbalance)});
-        });
-    }catch(e){
-        console.log('Transaction failure:', e);
+    const details = {
+        currentbalance: admin.firestore.FieldValue.increment(data.currentbalance)
     }
+    await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).update(details);
     return {
         result: `Success`,
     };
 })
 
 exports.postNewItem = functions.https.onCall(async (data, context) => {
-    try {
-        const proRef = await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid);
-        await admin.firestore().runTransaction(async (t) => {
-            const doc = await t.get(proRef);
-            const profile = doc.data();
-            if (profile.currentbalance < 1) {
-                return {
-                    result: `Error: No funds!`,
-                };
-            }else{
-                t.update(proRef, {currentbalance: admin.firestore.FieldValue.increment(-1)});
-            }
-        });
-    }catch (e) {
-        console.log('Transaction failure:', e);
+    const result = await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).get();
+    const profile = result.data();
+    if (typeof profile === "undefined") {
+        return {
+            result: `Error: User not found`,
+        };
     }
-    data['created_at'] = new Date();
-    const writeResult = await admin.firestore().collection(DB_AUCTION).add(data);
+    if (profile.currentbalance >= 1) {
+        const details = {currentbalance: admin.firestore.FieldValue.increment(-1)}
+        await admin.firestore().collection(DB_PROFILES).doc(context.auth.uid).update(details);
+
+        data['created_at'] = new Date()
+        const writeResult = await admin.firestore().collection(DB_AUCTION).add(data);
+        return {
+            result: `Success`,
+            wid: writeResult.id
+        };
+    }
     return {
-        result: `Success`,
-        wid: writeResult.id
+        result: `Error: No funds!`,
     };
 })
 
@@ -204,26 +199,6 @@ exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{ite
                     body: 'Your bid isnt the highest anymore',
                 },
                 token: previousBidWinner.noti_token,
-            };
-            admin.messaging().send(payload)
-                .then((response) => {
-                    console.log('Success: ', response);
-                    return {success: true};
-                })
-                .catch((error) => {
-                    console.log('Error: ', error);
-                    return {error: error.code};
-                });
-        }
-        if(newBidWinner){
-            const payload = {
-                data: {
-                },
-                notification: {
-                    title: 'Auction Update',
-                    body: 'Your bid is the highest',
-                },
-                token: newBidWinner.noti_token,
             };
             admin.messaging().send(payload)
                 .then((response) => {
