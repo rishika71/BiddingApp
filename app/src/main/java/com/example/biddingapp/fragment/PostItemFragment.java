@@ -85,6 +85,10 @@ public class PostItemFragment extends Fragment {
                     Toast.makeText(getContext(), "Please enter all the values!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if(user.getCurrentbalance() < 1){
+                    Toast.makeText(getContext(), "Insufficient funds!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Double fstartBid = Utils.parseMoney(startBid);
                 Double ffinalBid = Utils.parseMoney(finalBid);
                 if(fstartBid == null || ffinalBid == null){
