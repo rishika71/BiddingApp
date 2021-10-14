@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.biddingapp.MainActivity;
 import com.example.biddingapp.R;
 import com.example.biddingapp.adapter.ItemAdapter;
 import com.example.biddingapp.databinding.FragmentTradingBinding;
@@ -135,7 +136,7 @@ public class TradingFragment extends Fragment {
                         navController.navigate(R.id.action_tradingFragment_to_userProfileFragment);
                         return true;
                     case R.id.logOutIcons:
-                        FirebaseAuth.getInstance().signOut();
+                        am.signout();
                         navController.navigate(R.id.action_tradingFragment_to_loginFragment);
                         return true;
 
@@ -150,6 +151,8 @@ public class TradingFragment extends Fragment {
     public interface ITrading{
 
         User getUser();
+
+        void signout();
 
         void toggleDialog(boolean show);
 

@@ -1,91 +1,87 @@
-[debug] [2021-10-14T14:54:16.313Z] ----------------------------------------------------------------------
-[debug] [2021-10-14T14:54:16.315Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\infer\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
-[debug] [2021-10-14T14:54:16.315Z] CLI Version:   9.19.0
-[debug] [2021-10-14T14:54:16.315Z] Platform:      win32
-[debug] [2021-10-14T14:54:16.315Z] Node Version:  v14.17.6
-[debug] [2021-10-14T14:54:16.316Z] Time:          Thu Oct 14 2021 10:54:16 GMT-0400 (Eastern Daylight Time)
-[debug] [2021-10-14T14:54:16.316Z] ----------------------------------------------------------------------
+[debug] [2021-10-14T17:11:51.240Z] ----------------------------------------------------------------------
+[debug] [2021-10-14T17:11:51.242Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\infer\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
+[debug] [2021-10-14T17:11:51.242Z] CLI Version:   9.19.0
+[debug] [2021-10-14T17:11:51.242Z] Platform:      win32
+[debug] [2021-10-14T17:11:51.242Z] Node Version:  v14.17.6
+[debug] [2021-10-14T17:11:51.243Z] Time:          Thu Oct 14 2021 13:11:51 GMT-0400 (Eastern Daylight Time)
+[debug] [2021-10-14T17:11:51.243Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2021-10-14T14:54:16.356Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2021-10-14T14:54:16.356Z] > authorizing via signed-in user (samjz1204@gmail.com)
+[debug] [2021-10-14T17:11:51.283Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-10-14T17:11:51.283Z] > authorizing via signed-in user (samjz1204@gmail.com)
 [info] i  emulators: Starting emulators: functions, firestore {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions, firestore"}}
-[debug] [2021-10-14T14:54:16.369Z] [hub] writing locator at C:\Users\infer\AppData\Local\Temp\hub-biddingapp-3c1ea.json
+[debug] [2021-10-14T17:11:51.297Z] [hub] writing locator at C:\Users\infer\AppData\Local\Temp\hub-biddingapp-3c1ea.json
 [warn] !  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: auth, database, hosting, pubsub, storage {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mauth, database, hosting, pubsub, storage\u001b[22m"}}
 [info] +  functions: Using node@14 from host. {"metadata":{"emulator":{"name":"functions"},"message":"Using node@14 from host."}}
-[debug] [2021-10-14T14:54:16.407Z] defaultcredentials: writing to file C:\Users\infer\AppData\Roaming\firebase\samjz1204_gmail_com_application_default_credentials.json
-[debug] [2021-10-14T14:54:16.408Z] Setting GAC to C:\Users\infer\AppData\Roaming\firebase\samjz1204_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\infer\\AppData\\Roaming\\firebase\\samjz1204_gmail_com_application_default_credentials.json"}}
-[debug] [2021-10-14T14:54:16.410Z] > refreshing access token with scopes: []
-[debug] [2021-10-14T14:54:16.410Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
- <request body omitted>
-[debug] [2021-10-14T14:54:16.507Z] <<< HTTP RESPONSE 200 {"pragma":"no-cache","cache-control":"no-cache, no-store, max-age=0, must-revalidate","expires":"Mon, 01 Jan 1990 00:00:00 GMT","date":"Thu, 14 Oct 2021 14:54:15 GMT","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
-[debug] [2021-10-14T14:54:16.516Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/biddingapp-3c1ea/adminSdkConfig [none]
-[debug] [2021-10-14T14:54:16.806Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/biddingapp-3c1ea/adminSdkConfig 200
-[debug] [2021-10-14T14:54:16.806Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/biddingapp-3c1ea/adminSdkConfig {"projectId":"biddingapp-3c1ea","databaseURL":"https://biddingapp-3c1ea-default-rtdb.firebaseio.com","storageBucket":"biddingapp-3c1ea.appspot.com","locationId":"us-central"}
-[debug] [2021-10-14T14:54:16.816Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: projectId"}}
-[debug] [2021-10-14T14:54:16.816Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2021-10-14T14:54:16.816Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\infer\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.13.1.jar","--host","localhost","--port",8080,"--rules","C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\firestore.rules","--functions_emulator","localhost:5001"],"optionalArgs":["port","webchannel_port","host","rules","functions_emulator","seed_from_export"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\infer\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.13.1.jar\",\"--host\",\"localhost\",\"--port\",8080,\"--rules\",\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\firestore.rules\",\"--functions_emulator\",\"localhost:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"functions_emulator\",\"seed_from_export\"],\"joinArgs\":false}"}}
+[debug] [2021-10-14T17:11:51.335Z] defaultcredentials: writing to file C:\Users\infer\AppData\Roaming\firebase\samjz1204_gmail_com_application_default_credentials.json
+[debug] [2021-10-14T17:11:51.336Z] Setting GAC to C:\Users\infer\AppData\Roaming\firebase\samjz1204_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\infer\\AppData\\Roaming\\firebase\\samjz1204_gmail_com_application_default_credentials.json"}}
+[debug] [2021-10-14T17:11:51.338Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/biddingapp-3c1ea/adminSdkConfig [none]
+[debug] [2021-10-14T17:11:51.640Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/biddingapp-3c1ea/adminSdkConfig 200
+[debug] [2021-10-14T17:11:51.641Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/biddingapp-3c1ea/adminSdkConfig {"projectId":"biddingapp-3c1ea","databaseURL":"https://biddingapp-3c1ea-default-rtdb.firebaseio.com","storageBucket":"biddingapp-3c1ea.appspot.com","locationId":"us-central"}
+[debug] [2021-10-14T17:11:51.651Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2021-10-14T17:11:51.651Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2021-10-14T17:11:51.651Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\infer\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.13.1.jar","--host","localhost","--port",8080,"--rules","C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\firestore.rules","--functions_emulator","localhost:5001"],"optionalArgs":["port","webchannel_port","host","rules","functions_emulator","seed_from_export"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\infer\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.13.1.jar\",\"--host\",\"localhost\",\"--port\",8080,\"--rules\",\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\firestore.rules\",\"--functions_emulator\",\"localhost:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"functions_emulator\",\"seed_from_export\"],\"joinArgs\":false}"}}
 [info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
-[debug] [2021-10-14T14:54:17.665Z] Oct 14, 2021 10:54:17 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
-INFO: Started WebSocket server on ws://localhost:62566
- {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 10:54:17 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\r\nINFO: Started WebSocket server on ws://localhost:62566\r\n"}}
-[debug] [2021-10-14T14:54:17.694Z] API endpoint: http://localhost:8080 {"metadata":{"emulator":{"name":"firestore"},"message":"API endpoint: http://localhost:8080"}}
-[debug] [2021-10-14T14:54:17.694Z] 
+[debug] [2021-10-14T17:11:52.887Z] Oct 14, 2021 1:11:52 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
+INFO: Started WebSocket server on ws://localhost:55091
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:11:52 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\r\nINFO: Started WebSocket server on ws://localhost:55091\r\n"}}
+[debug] [2021-10-14T17:11:52.918Z] API endpoint: http://localhost: {"metadata":{"emulator":{"name":"firestore"},"message":"API endpoint: http://localhost:"}}
+[debug] [2021-10-14T17:11:52.918Z] 8080
 If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
 
    export FIRESTORE_EMULATOR_HOST=localhost:8080
 
 Dev App Server is now running.
 
- {"metadata":{"emulator":{"name":"firestore"},"message":"\nIf you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:\r\n\n   export FIRESTORE_EMULATOR_HOST=localhost:8080\n\nDev App Server is now running.\n\r\n"}}
-[debug] [2021-10-14T14:54:17.875Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2021-10-14T14:54:17.875Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
-[debug] [2021-10-14T14:54:17.875Z] Starting Emulator UI with command {"binary":"node","args":["C:\\Users\\infer\\.cache\\firebase\\emulators\\ui-v1.6.3\\server.bundle.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"C:\\\\Users\\\\infer\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.6.3\\\\server.bundle.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+ {"metadata":{"emulator":{"name":"firestore"},"message":"8080\nIf you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:\r\n\n   export FIRESTORE_EMULATOR_HOST=localhost:8080\n\nDev App Server is now running.\n\r\n"}}
+[debug] [2021-10-14T17:11:52.984Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2021-10-14T17:11:52.984Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2021-10-14T17:11:52.984Z] Starting Emulator UI with command {"binary":"node","args":["C:\\Users\\infer\\.cache\\firebase\\emulators\\ui-v1.6.3\\server.bundle.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"C:\\\\Users\\\\infer\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.6.3\\\\server.bundle.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
 [info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
-[debug] [2021-10-14T14:54:17.949Z] Web / API server started at localhost:4000
+[debug] [2021-10-14T17:11:53.073Z] Web / API server started at localhost:4000
  {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at localhost:4000\n"}}
 [info] i  functions: Watching "C:\Personal\UNCC\Projects\AMAD\Bidding\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\" for Cloud Functions..."}}
-[debug] [2021-10-14T14:54:18.139Z] [worker-pool] addWorker(~diagnostic~) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(~diagnostic~)"}}
-[debug] [2021-10-14T14:54:18.139Z] [worker-pool] Adding worker with key ~diagnostic~, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key ~diagnostic~, total=1"}}
-[debug] [2021-10-14T14:54:18.140Z] [worker-pool] submitWork(triggerId=) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitWork(triggerId=)"}}
-[debug] [2021-10-14T14:54:18.140Z] [worker-~diagnostic~-8314bb48-df14-46d1-9da0-8bc5e872a8c6]: Assigning socketPath: \\?\pipe\C:\Personal\UNCC\Projects\AMAD\Bidding\functions\8424 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-8314bb48-df14-46d1-9da0-8bc5e872a8c6]: Assigning socketPath: \\\\?\\pipe\\C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\8424"}}
-[debug] [2021-10-14T14:54:18.140Z] [worker-~diagnostic~-8314bb48-df14-46d1-9da0-8bc5e872a8c6]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-8314bb48-df14-46d1-9da0-8bc5e872a8c6]: BUSY"}}
-[debug] [2021-10-14T14:54:18.273Z] [runtime-status] [8424] Functions runtime initialized. {"cwd":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions","node_version":"14.17.6"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [8424] Functions runtime initialized. {\"cwd\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\",\"node_version\":\"14.17.6\"}"}}
-[debug] [2021-10-14T14:54:18.274Z] [runtime-status] [8424] Disabled runtime features: undefined {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [8424] Disabled runtime features: undefined"}}
-[debug] [2021-10-14T14:54:18.276Z] [runtime-status] [8424] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.12.0","resolution":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [8424] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"9.12.0\",\"resolution\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
-[debug] [2021-10-14T14:54:18.278Z] [runtime-status] [8424] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [8424] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2021-10-14T14:54:18.279Z] [runtime-status] [8424] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [8424] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
-[debug] [2021-10-14T14:54:18.279Z] [runtime-status] [8424] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [8424] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2021-10-14T14:54:18.311Z] [runtime-status] [8424] Checked functions.config() {"config":{}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [8424] Checked functions.config() {\"config\":{}}"}}
-[debug] [2021-10-14T14:54:18.311Z] [runtime-status] [8424] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.15.7","resolution":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\node_modules\\firebase-functions\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [8424] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}}"}}
-[debug] [2021-10-14T14:54:18.312Z] [runtime-status] [8424] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [8424] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2021-10-14T14:54:18.313Z] [runtime-status] [8424] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.12.0","resolution":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [8424] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"9.12.0\",\"resolution\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
-[debug] [2021-10-14T14:54:18.313Z] [runtime-status] [8424] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [8424] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
-[debug] [2021-10-14T14:54:18.313Z] [runtime-status] [8424] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.12.0","resolution":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\node_modules\\firebase-admin\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [8424] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"9.12.0\",\"resolution\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}}"}}
-[debug] [2021-10-14T14:54:18.315Z] [runtime-status] [8424] initializeApp(DEFAULT) {"storageBucket":"biddingapp-3c1ea.appspot.com","databaseURL":"https://biddingapp-3c1ea-default-rtdb.firebaseio.com","projectId":"biddingapp-3c1ea"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [8424] initializeApp(DEFAULT) {\"storageBucket\":\"biddingapp-3c1ea.appspot.com\",\"databaseURL\":\"https://biddingapp-3c1ea-default-rtdb.firebaseio.com\",\"projectId\":\"biddingapp-3c1ea\"}"}}
+[debug] [2021-10-14T17:11:53.252Z] [worker-pool] addWorker(~diagnostic~) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(~diagnostic~)"}}
+[debug] [2021-10-14T17:11:53.252Z] [worker-pool] Adding worker with key ~diagnostic~, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key ~diagnostic~, total=1"}}
+[debug] [2021-10-14T17:11:53.252Z] [worker-pool] submitWork(triggerId=) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitWork(triggerId=)"}}
+[debug] [2021-10-14T17:11:53.252Z] [worker-~diagnostic~-7ede1aa0-8fa3-48f9-a9ee-021d1574ca3d]: Assigning socketPath: \\?\pipe\C:\Personal\UNCC\Projects\AMAD\Bidding\functions\18996 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-7ede1aa0-8fa3-48f9-a9ee-021d1574ca3d]: Assigning socketPath: \\\\?\\pipe\\C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\18996"}}
+[debug] [2021-10-14T17:11:53.253Z] [worker-~diagnostic~-7ede1aa0-8fa3-48f9-a9ee-021d1574ca3d]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-7ede1aa0-8fa3-48f9-a9ee-021d1574ca3d]: BUSY"}}
+[debug] [2021-10-14T17:11:53.394Z] [runtime-status] [18996] Functions runtime initialized. {"cwd":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions","node_version":"14.17.6"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [18996] Functions runtime initialized. {\"cwd\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\",\"node_version\":\"14.17.6\"}"}}
+[debug] [2021-10-14T17:11:53.395Z] [runtime-status] [18996] Disabled runtime features: undefined {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [18996] Disabled runtime features: undefined"}}
+[debug] [2021-10-14T17:11:53.397Z] [runtime-status] [18996] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.12.0","resolution":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [18996] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"9.12.0\",\"resolution\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2021-10-14T17:11:53.399Z] [runtime-status] [18996] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [18996] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2021-10-14T17:11:53.400Z] [runtime-status] [18996] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [18996] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2021-10-14T17:11:53.401Z] [runtime-status] [18996] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [18996] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2021-10-14T17:11:53.433Z] [runtime-status] [18996] Checked functions.config() {"config":{}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [18996] Checked functions.config() {\"config\":{}}"}}
+[debug] [2021-10-14T17:11:53.434Z] [runtime-status] [18996] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.15.7","resolution":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\node_modules\\firebase-functions\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [18996] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}}"}}
+[debug] [2021-10-14T17:11:53.434Z] [runtime-status] [18996] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [18996] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2021-10-14T17:11:53.435Z] [runtime-status] [18996] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.12.0","resolution":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [18996] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"9.12.0\",\"resolution\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2021-10-14T17:11:53.435Z] [runtime-status] [18996] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.15.7","resolution":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [18996] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.15.7\",\"resolution\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2021-10-14T17:11:53.436Z] [runtime-status] [18996] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.12.0","resolution":"C:\\Personal\\UNCC\\Projects\\AMAD\\Bidding\\functions\\node_modules\\firebase-admin\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [18996] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"9.12.0\",\"resolution\":\"C:\\\\Personal\\\\UNCC\\\\Projects\\\\AMAD\\\\Bidding\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}}"}}
+[debug] [2021-10-14T17:11:53.437Z] [runtime-status] [18996] initializeApp(DEFAULT) {"storageBucket":"biddingapp-3c1ea.appspot.com","databaseURL":"https://biddingapp-3c1ea-default-rtdb.firebaseio.com","projectId":"biddingapp-3c1ea"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [18996] initializeApp(DEFAULT) {\"storageBucket\":\"biddingapp-3c1ea.appspot.com\",\"databaseURL\":\"https://biddingapp-3c1ea-default-rtdb.firebaseio.com\",\"projectId\":\"biddingapp-3c1ea\"}"}}
 [info] +  functions[us-central1-createUserProfile]: http function initialized (http://localhost:5001/biddingapp-3c1ea/us-central1/createUserProfile). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:5001/biddingapp-3c1ea/us-central1/createUserProfile)."}}
 [info] +  functions[us-central1-addMoney]: http function initialized (http://localhost:5001/biddingapp-3c1ea/us-central1/addMoney). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:5001/biddingapp-3c1ea/us-central1/addMoney)."}}
 [info] +  functions[us-central1-postNewItem]: http function initialized (http://localhost:5001/biddingapp-3c1ea/us-central1/postNewItem). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:5001/biddingapp-3c1ea/us-central1/postNewItem)."}}
 [info] +  functions[us-central1-cancelItem]: http function initialized (http://localhost:5001/biddingapp-3c1ea/us-central1/cancelItem). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:5001/biddingapp-3c1ea/us-central1/cancelItem)."}}
 [info] +  functions[us-central1-bidOnItem]: http function initialized (http://localhost:5001/biddingapp-3c1ea/us-central1/bidOnItem). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:5001/biddingapp-3c1ea/us-central1/bidOnItem)."}}
-[debug] [2021-10-14T14:54:18.320Z] addFirestoreTrigger "{\"eventTrigger\":{\"resource\":\"projects/biddingapp-3c1ea/databases/(default)/documents/auction/{itemId}\",\"eventType\":\"providers/cloud.firestore/eventTypes/document.update\",\"service\":\"firestore.googleapis.com\"}}"
-[debug] [2021-10-14T14:54:18.320Z] >>> HTTP REQUEST PUT http://localhost:8080/emulator/v1/projects/biddingapp-3c1ea/triggers/us-central1-updateWinningBid-0  
+[debug] [2021-10-14T17:11:53.442Z] addFirestoreTrigger "{\"eventTrigger\":{\"resource\":\"projects/biddingapp-3c1ea/databases/(default)/documents/auction/{itemId}\",\"eventType\":\"providers/cloud.firestore/eventTypes/document.update\",\"service\":\"firestore.googleapis.com\"}}"
+[debug] [2021-10-14T17:11:53.443Z] >>> HTTP REQUEST PUT http://localhost:8080/emulator/v1/projects/biddingapp-3c1ea/triggers/us-central1-updateWinningBid-0  
  {"eventTrigger":{"resource":"projects/biddingapp-3c1ea/databases/(default)/documents/auction/{itemId}","eventType":"providers/cloud.firestore/eventTypes/document.update","service":"firestore.googleapis.com"}}
-[debug] [2021-10-14T14:54:18.322Z] [worker-~diagnostic~-8314bb48-df14-46d1-9da0-8bc5e872a8c6]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-8314bb48-df14-46d1-9da0-8bc5e872a8c6]: IDLE"}}
-[debug] [2021-10-14T14:54:18.325Z] Oct 14, 2021 10:54:18 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+[debug] [2021-10-14T17:11:53.445Z] [worker-~diagnostic~-7ede1aa0-8fa3-48f9-a9ee-021d1574ca3d]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-7ede1aa0-8fa3-48f9-a9ee-021d1574ca3d]: IDLE"}}
+[debug] [2021-10-14T17:11:53.449Z] Oct 14, 2021 1:11:53 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 10:54:18 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
-[debug] [2021-10-14T14:54:18.433Z] Oct 14, 2021 10:54:18 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:11:53 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:11:53.561Z] Oct 14, 2021 1:11:53 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 10:54:18 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected HTTP/2 connection.\r\n"}}
-[debug] [2021-10-14T14:54:18.801Z] <<< HTTP RESPONSE 200 {"content-type":"application/json","content-length":"4"}
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:11:53 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:11:53.950Z] <<< HTTP RESPONSE 200 {"content-type":"application/json","content-length":"4"}
 [info] +  functions[us-central1-updateWinningBid]: firestore function initialized. {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mfirestore\u001b[22m function initialized."}}
-[debug] [2021-10-14T14:54:18.802Z] addFirestoreTrigger "{\"eventTrigger\":{\"resource\":\"projects/biddingapp-3c1ea/databases/(default)/documents/auction/{itemId}\",\"eventType\":\"providers/cloud.firestore/eventTypes/document.delete\",\"service\":\"firestore.googleapis.com\"}}"
-[debug] [2021-10-14T14:54:18.802Z] >>> HTTP REQUEST PUT http://localhost:8080/emulator/v1/projects/biddingapp-3c1ea/triggers/us-central1-updateOnItemDelete-0  
+[debug] [2021-10-14T17:11:53.951Z] addFirestoreTrigger "{\"eventTrigger\":{\"resource\":\"projects/biddingapp-3c1ea/databases/(default)/documents/auction/{itemId}\",\"eventType\":\"providers/cloud.firestore/eventTypes/document.delete\",\"service\":\"firestore.googleapis.com\"}}"
+[debug] [2021-10-14T17:11:53.951Z] >>> HTTP REQUEST PUT http://localhost:8080/emulator/v1/projects/biddingapp-3c1ea/triggers/us-central1-updateOnItemDelete-0  
  {"eventTrigger":{"resource":"projects/biddingapp-3c1ea/databases/(default)/documents/auction/{itemId}","eventType":"providers/cloud.firestore/eventTypes/document.delete","service":"firestore.googleapis.com"}}
-[debug] [2021-10-14T14:54:18.805Z] Oct 14, 2021 10:54:18 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+[debug] [2021-10-14T17:11:53.953Z] Oct 14, 2021 1:11:53 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
- {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 10:54:18 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
-[debug] [2021-10-14T14:54:18.809Z] <<< HTTP RESPONSE 200 {"content-type":"application/json","content-length":"4"}
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:11:53 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:11:53.957Z] <<< HTTP RESPONSE 200 {"content-type":"application/json","content-length":"4"}
 [info] +  functions[us-central1-updateOnItemDelete]: firestore function initialized. {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mfirestore\u001b[22m function initialized."}}
 [info] +  functions[us-central1-cancelBid]: http function initialized (http://localhost:5001/biddingapp-3c1ea/us-central1/cancelBid). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:5001/biddingapp-3c1ea/us-central1/cancelBid)."}}
 [info] +  functions[us-central1-acceptBidOnItem]: http function initialized (http://localhost:5001/biddingapp-3c1ea/us-central1/acceptBidOnItem). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:5001/biddingapp-3c1ea/us-central1/acceptBidOnItem)."}}
@@ -107,3 +103,117 @@ INFO: Detected non-HTTP/2 connection.
 
 Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
  
+[debug] [2021-10-14T17:13:07.346Z] Oct 14, 2021 1:13:07 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:07 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:07.670Z] Oct 14, 2021 1:13:07 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:07 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\r\nINFO: Connected to new websocket client\r\n"}}
+[debug] [2021-10-14T17:13:09.368Z] Oct 14, 2021 1:13:09 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:09 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:11.392Z] Oct 14, 2021 1:13:11 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:11 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:13.403Z] Oct 14, 2021 1:13:13 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:13 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:15.412Z] Oct 14, 2021 1:13:15 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:15 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:17.424Z] Oct 14, 2021 1:13:17 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:17 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:19.434Z] Oct 14, 2021 1:13:19 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:19 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:21.446Z] Oct 14, 2021 1:13:21 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:21 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:22.040Z] Oct 14, 2021 1:13:22 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:22 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:23.455Z] Oct 14, 2021 1:13:23 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:23 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:25.465Z] Oct 14, 2021 1:13:25 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:25 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:27.482Z] Oct 14, 2021 1:13:27 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:27 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:29.493Z] Oct 14, 2021 1:13:29 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:29 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:31.503Z] Oct 14, 2021 1:13:31 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:31 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:33.515Z] Oct 14, 2021 1:13:33 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:33 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:35.528Z] Oct 14, 2021 1:13:35 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:35 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:37.537Z] Oct 14, 2021 1:13:37 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:37 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:39.546Z] Oct 14, 2021 1:13:39 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:39 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:41.555Z] Oct 14, 2021 1:13:41 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:41 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:43.564Z] Oct 14, 2021 1:13:43 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:43 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:45.574Z] Oct 14, 2021 1:13:45 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:45 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:47.582Z] Oct 14, 2021 1:13:47 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:47 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:49.592Z] Oct 14, 2021 1:13:49 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:49 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:51.600Z] Oct 14, 2021 1:13:51 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:51 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:53.616Z] Oct 14, 2021 1:13:53 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:53 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:55.636Z] Oct 14, 2021 1:13:55 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:55 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:57.645Z] Oct 14, 2021 1:13:57 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:57 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:13:59.656Z] Oct 14, 2021 1:13:59 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:13:59 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:14:09.401Z] Oct 14, 2021 1:14:09 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:14:09 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:14:12.199Z] Oct 14, 2021 1:14:12 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:14:12 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:15:57.327Z] Oct 14, 2021 1:15:57 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:15:57 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:15:59.349Z] Oct 14, 2021 1:15:59 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:15:59 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:15:59.571Z] Oct 14, 2021 1:15:59 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:15:59 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\r\nINFO: Websocket client disconnected\r\n"}}
+[debug] [2021-10-14T17:15:59.707Z] Oct 14, 2021 1:15:59 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:15:59 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:16:00.029Z] Oct 14, 2021 1:16:00 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:16:00 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\r\nINFO: Connected to new websocket client\r\n"}}
+[debug] [2021-10-14T17:16:03.713Z] Oct 14, 2021 1:16:03 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:16:03 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2021-10-14T17:16:05.721Z] Oct 14, 2021 1:16:05 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Oct 14, 2021 1:16:05 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
