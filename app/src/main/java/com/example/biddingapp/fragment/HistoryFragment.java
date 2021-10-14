@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.biddingapp.MainActivity;
 import com.example.biddingapp.R;
 import com.example.biddingapp.adapter.HistoryAdapter;
 import com.example.biddingapp.adapter.ItemAdapter;
@@ -121,7 +122,7 @@ public class HistoryFragment extends Fragment {
                         navController.navigate(R.id.action_historyFragment_to_userProfileFragment);
                         return true;
                     case R.id.logOutIcons:
-                        FirebaseAuth.getInstance().signOut();
+                        am.signout();
                         navController.navigate(R.id.action_historyFragment_to_loginFragment);
                         return true;
 
@@ -136,6 +137,8 @@ public class HistoryFragment extends Fragment {
     public interface IHistory{
 
         User getUser();
+
+        void signout();
 
     }
 

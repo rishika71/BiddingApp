@@ -1,5 +1,6 @@
 package com.example.biddingapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -18,6 +19,11 @@ import com.example.biddingapp.fragment.PostItemFragment;
 import com.example.biddingapp.fragment.TradingFragment;
 import com.example.biddingapp.fragment.UserProfileFragment;
 import com.example.biddingapp.models.User;
+import com.example.biddingapp.models.Utils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.ILogin, MyItemsFragment.IMyItems, OwnItemViewFragment.IOwnItemView, CreateNewAccountFragment.IRegister, UserProfileFragment.IUserProfile, HistoryFragment.IHistory, TradingFragment.ITrading, PostItemFragment.IPostItem, ItemViewFragment.IItemView {
 
@@ -32,6 +38,12 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.ILo
                 .setMessage(alert)
                 .setPositiveButton(R.string.okay, null)
                 .show());
+    }
+
+    public void signout(){
+        FirebaseAuth.getInstance().signOut();
+        FirebaseFirestore.getInstance().collection(Utils.DB_PROFILE).document(user.getId()).update("noti_token", "");
+        user = null;
     }
 
     public void toggleDialog(boolean show) {

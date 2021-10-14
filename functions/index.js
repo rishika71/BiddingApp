@@ -149,6 +149,8 @@ exports.updateWinningBid = functions.firestore.document(DB_AUCTION + '/' + '{ite
         previousBidWinner = beforedata.bids[parseInt(beforedata.winningBid) - 1];
     }
 
+    console.log(beforedata)
+    console.log(afterdata)
     if (beforedata.bids.length > afterdata.bids.length) {
         if(newBidWinner) {
             const payload = {

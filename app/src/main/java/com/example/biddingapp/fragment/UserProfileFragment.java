@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.example.biddingapp.MainActivity;
 import com.example.biddingapp.R;
 import com.example.biddingapp.databinding.FragmentUserProfileBinding;
 import com.example.biddingapp.models.User;
@@ -69,7 +70,7 @@ public class UserProfileFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
 
         am.toggleDialog(true);
-        db.collection(Utils.DB_PROFILE).document(user.getId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        db.collection(Utils.DB_PROFILE).document(FirebaseAuth.getInstance().getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
@@ -134,7 +135,7 @@ public class UserProfileFragment extends Fragment {
                     case R.id.profileIcons:
                         return true;
                     case R.id.logOutIcons:
-                        FirebaseAuth.getInstance().signOut();
+                        am.signout();
                         navController.navigate(R.id.action_userProfileFragment_to_loginFragment);
                         return true;
 
@@ -179,6 +180,8 @@ public class UserProfileFragment extends Fragment {
     public interface IUserProfile {
 
         User getUser();
+
+        void signout();
 
         void setUser(User user);
 
