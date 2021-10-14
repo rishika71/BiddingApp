@@ -11,18 +11,29 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/user?id=-90371657",
+					"raw": "{{baseUrl}}/createUserProfile?firstname&lastname&email&currentbalance",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"user"
+						"createUserProfile"
 					],
 					"query": [
 						{
-							"key": "id",
-							"value": "-90371657",
-							"description": "(Required) ID of the user"
+							"key": "firstname",
+							"value": null
+						},
+						{
+							"key": "lastname",
+							"value": null
+						},
+						{
+							"key": "email",
+							"value": null
+						},
+						{
+							"key": "currentbalance",
+							"value": null
 						}
 					]
 				}
@@ -34,7 +45,21 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": "{{baseUrl}}/addMoney?currentbalance",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"addMoney"
+					],
+					"query": [
+						{
+							"key": "currentbalance",
+							"value": null
+						}
+					]
+				}
 			},
 			"response": []
 		},
@@ -43,7 +68,29 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": "{{baseUrl}}/postNewItem?name&startbid&finalbid",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"postNewItem"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": null
+						},
+						{
+							"key": "startbid",
+							"value": null
+						},
+						{
+							"key": "finalbid",
+							"value": null
+						}
+					]
+				}
 			},
 			"response": []
 		},
@@ -52,7 +99,29 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": "{{baseUrl}}/bidOnItem?amount&bidder_id&itemID",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"bidOnItem"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": null
+						},
+						{
+							"key": "bidder_id",
+							"value": null
+						},
+						{
+							"key": "itemID",
+							"value": null
+						}
+					]
+				}
 			},
 			"response": []
 		},
@@ -61,7 +130,25 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": "{{baseUrl}}/acceptBidOnItem?itemId&owner_name",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"acceptBidOnItem"
+					],
+					"query": [
+						{
+							"key": "itemId",
+							"value": null
+						},
+						{
+							"key": "owner_name",
+							"value": null
+						}
+					]
+				}
 			},
 			"response": []
 		},
@@ -70,7 +157,21 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": "{{baseUrl}}/cancelBid?itemId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"cancelBid"
+					],
+					"query": [
+						{
+							"key": "itemId",
+							"value": null
+						}
+					]
+				}
 			},
 			"response": []
 		},
@@ -79,7 +180,21 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": "{{baseUrl}}/cancelItem?itemId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"cancelItem"
+					],
+					"query": [
+						{
+							"key": "itemId",
+							"value": null
+						}
+					]
+				}
 			},
 			"response": []
 		}
@@ -99,11 +214,30 @@
 			}
 		]
 	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "https://petstore.swagger.io/v1",
-			"type": "string"
+			"value": " https://us-central1-biddingapp-3c1ea.cloudfunctions.net"
 		}
 	]
 }
